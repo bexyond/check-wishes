@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>FREQUENCY 26 - FOR CƯỜNG BẠCH</title>
+<title>FREQUENCY 26 — Tín hiệu sinh nhật cho Cường Bạch</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&family=Oswald:wght@400;500;600;700&family=Anton&display=swap" rel="stylesheet">
@@ -145,8 +145,11 @@ body[data-theme="light"] .theme-switch .sw { border-color: rgba(26,23,48,0.3); }
 }
 .title .x { color: var(--accent); -webkit-text-fill-color: var(--accent); font-style: italic; }
 .subtitle {
-  font-family: var(--head); font-weight: 600; font-size: clamp(13px, 2vw, 18px);
-  letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent2); margin-top: 14px;
+  font-family: var(--head); font-weight: 600;
+  font-size: clamp(9px, 2.5vw, 18px);
+  letter-spacing: clamp(0.04em, 0.7vw, 0.3em);
+  text-transform: uppercase; color: var(--accent2); margin-top: 14px;
+  white-space: nowrap; max-width: 100%;
 }
 .tagline {
   font-family: 'Blender', var(--serif); font-style: normal; font-size: clamp(15px,1.8vw,19px);
@@ -315,6 +318,10 @@ body[data-theme="light"] .btn.primary { color: #fff; }
   border-top: 1px solid var(--surface-line);
 }
 .foot .logo { font-family: var(--anton); font-size: 26px; letter-spacing: 0.04em; color: var(--text); }
+.foot .logo img { height: 34px; width: auto; display: inline-block; vertical-align: middle; }
+.foot .logo .logo-light { display: none; }
+body[data-theme="light"] .foot .logo .logo-dark { display: none; }
+body[data-theme="light"] .foot .logo .logo-light { display: inline-block; }
 .foot .logo .x { color: var(--accent); font-style: italic; }
 .foot p { font-family: 'Blender', var(--serif); font-style: normal; color: var(--dim); margin-top: 10px; }
 .foot .tags { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--faint); margin-top: 18px; }
@@ -448,6 +455,10 @@ body[data-theme="light"] .modal.transmit::before { mix-blend-mode: multiply; opa
 @media (max-width: 720px){
   .radar-meta { font-size: 10px; }
   .cd-cell { min-width: 64px; }
+  .head { padding-left: 12px; padding-right: 12px; }
+}
+@media (max-width: 360px){
+  .subtitle { font-size: 8px; letter-spacing: 0.03em; }
 }
 </style>
 </head>
@@ -472,7 +483,7 @@ body[data-theme="light"] .modal.transmit::before { mix-blend-mode: multiply; opa
   <div class="kicker">Fan Signal Project</div>
   <h1 class="title">FREQUENCY <span class="x">26</span></h1>
   <div class="subtitle">Tín hiệu sinh nhật cho Bạch Hồng Cường</div>
-  <p class="tagline">Mỗi lời chúc là một tín hiệu phát đi. Gửi lời nhắn của bạn — nó sẽ hiện lên màn radar cùng những tín hiệu khác</p>
+  <p class="tagline">Mỗi lời chúc là một tín hiệu phát đi. Gửi lời nhắn của bạn — nó sẽ hiện lên màn radar cùng những tín hiệu khác.</p>
 
   <div class="countdown" id="countdown">
     <div class="cd-cell"><div class="cd-num" id="cdD">00</div><div class="cd-lab">Ngày</div></div>
@@ -509,7 +520,10 @@ body[data-theme="light"] .modal.transmit::before { mix-blend-mode: multiply; opa
 </section>
 
 <footer class="foot">
-  <div class="logo">BE<span class="x">[X]</span>YOND</div>
+  <div class="logo">
+    <img class="logo-dark" src="assests/LOGO-NOTAGLINE.png" alt="BE[X]YOND" />
+    <img class="logo-light" src="assests/LOGO-NOTAGLINE-light.png" alt="BE[X]YOND" />
+  </div>
   <p>"Beyond seeing you, we choose to stay for the journey."</p>
   <div class="tags">© 2026 H3T ONLY FOR CUONG BACH · #BEXYONDWITHCUONGBACH · #CUONGBACH26THBIRTHDAY</div>
 </footer>
@@ -590,7 +604,7 @@ body[data-theme="light"] .modal.transmit::before { mix-blend-mode: multiply; opa
     let diff = target - Date.now();
     if(diff<=0){
       const c=document.getElementById('countdown');
-      if(c) c.innerHTML='<div class="cd-done cd-blink"><span class="cd-done-rec"></span> HAPPY BIRTHDAY CƯỜNG BẠCH </div>';
+      if(c) c.innerHTML='<div class="cd-done cd-blink"><span class="cd-done-rec"></span>🎂 HAPPY BIRTHDAY CƯỜNG BẠCH 🎉</div>';
       clearInterval(tick._t);
       if(window.startCelebration) window.startCelebration();
       return;
