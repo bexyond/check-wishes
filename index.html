@@ -166,8 +166,37 @@ body[data-theme="light"] .theme-switch .sw { border-color: rgba(26,23,48,0.3); }
 .cd-lab { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--faint); margin-top: 7px; }
 .cd-sep { display: none; }
 .cd-done {
-  font-family: var(--head); font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em;
-  font-size: clamp(20px,3vw,30px); color: var(--accent); padding: 18px 0;
+  display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;
+  font-family: var(--anton); font-weight: 400; text-transform: uppercase; letter-spacing: 0.08em;
+  font-size: clamp(22px,4.5vw,46px); padding: 22px 16px; text-align: center;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent));
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 18px var(--glow));
+  animation: cdShimmer 4s linear infinite;
+}
+@keyframes cdShimmer { to { background-position: 200% center; } }
+.cd-done-rec {
+  width: 12px; height: 12px; border-radius: 50%; background: #ff5a5a;
+  box-shadow: 0 0 10px #ff5a5a; -webkit-text-fill-color: initial;
+  animation: txBlink 1.2s ease-in-out infinite;
+}
+.cd-blink { animation: cdShimmer 4s linear infinite, cdBlink 1s steps(2, jump-none) infinite; }
+@keyframes cdBlink { 0%,100%{ opacity: 1; filter: drop-shadow(0 0 18px var(--glow)); } 50%{ opacity: .45; filter: drop-shadow(0 0 6px var(--glow)); } }
+
+.cd-blink { animation: cdShimmer 4s linear infinite, cdBlink 1s steps(2, jump-none) infinite; }
+@keyframes cdBlink { 0%,100%{ opacity: 1; filter: drop-shadow(0 0 18px var(--glow)); } 50%{ opacity: .45; filter: drop-shadow(0 0 6px var(--glow)); } }
+
+/* confetti quanh chữ */
+#countdown { position: relative; }
+.confetti-piece {
+  position: absolute; top: 0; left: 0; width: 8px; height: 12px; border-radius: 2px;
+  pointer-events: none; z-index: 60; will-change: transform, opacity;
+  animation: confettiFall var(--dur, 1.6s) cubic-bezier(.25,.6,.4,1) forwards;
+}
+@keyframes confettiFall {
+  0%   { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(.7); opacity: 0; }
 }
 
 /* ════════════ RADAR ════════════ */
@@ -561,8 +590,10 @@ body[data-theme="light"] .modal.transmit::before { mix-blend-mode: multiply; opa
     let diff = target - Date.now();
     if(diff<=0){
       const c=document.getElementById('countdown');
-      if(c) c.innerHTML='<div class="cd-done">🎂 Chúc mừng sinh nhật Cường!</div>';
-      clearInterval(tick._t); return;
+      if(c) c.innerHTML='<div class="cd-done cd-blink"><span class="cd-done-rec"></span> HAPPY BIRTHDAY CƯỜNG BẠCH </div>';
+      clearInterval(tick._t);
+      if(window.startCelebration) window.startCelebration();
+      return;
     }
     const d=Math.floor(diff/86400000); diff-=d*86400000;
     const h=Math.floor(diff/3600000); diff-=h*3600000;
@@ -814,6 +845,55 @@ document.addEventListener('DOMContentLoaded', load);
 window.addEventListener('scroll', ()=>{
   $('fab').style.display = window.scrollY > 600 ? 'inline-flex' : 'none';
 });
+
+/* ════════════ CONFETTI (quanh chữ chúc mừng) ════════════ */
+window.startCelebration = (function(){
+  let running = false;
+  function themeColor(v){ return getComputedStyle(document.body).getPropertyValue(v).trim() || '#6f9fff'; }
+
+  function spawnBurst(){
+    const host = document.getElementById('countdown');
+    if(!host) return;
+    const rect = host.getBoundingClientRect();
+    if(rect.width === 0) return;
+    const palette = [themeColor('--accent'), themeColor('--accent2'), '#ffd36e', '#ff6ec7', '#7dffb0', '#ffffff'];
+    const n = 26;
+    for(let i=0;i<n;i++){
+      const piece = document.createElement('span');
+      piece.className = 'confetti-piece';
+      // điểm xuất phát: rải dọc bề ngang của chữ, quanh giữa
+      const startX = rect.width * (0.1 + Math.random()*0.8);
+      const startY = rect.height * (0.3 + Math.random()*0.4);
+      // bung ra ngoài: lệch trái/phải + bay lên rồi rơi xuống
+      const side = Math.random() < 0.5 ? -1 : 1;
+      const dx = side * (40 + Math.random()*160);
+      const dy = (Math.random() < 0.55 ? 1 : -1) * (40 + Math.random()*120);
+      const rot = (Math.random()*720 - 360) + 'deg';
+      const c = palette[(Math.random()*palette.length)|0];
+      piece.style.left = startX + 'px';
+      piece.style.top = startY + 'px';
+      piece.style.background = c;
+      piece.style.width = (5 + Math.random()*5) + 'px';
+      piece.style.height = (8 + Math.random()*8) + 'px';
+      piece.style.setProperty('--dx', dx + 'px');
+      piece.style.setProperty('--dy', dy + 'px');
+      piece.style.setProperty('--rot', rot);
+      piece.style.setProperty('--dur', (1.2 + Math.random()*1.1) + 's');
+      if(Math.random() < 0.4) piece.style.borderRadius = '50%'; // vài mảnh tròn
+      host.appendChild(piece);
+      setTimeout(()=> piece.remove(), 2400);
+    }
+  }
+
+  function start(){
+    if(running) return; running = true;
+    // vài loạt mở màn rồi lặp lại định kỳ
+    for(let k=0;k<3;k++) setTimeout(spawnBurst, k*400);
+    setInterval(spawnBurst, 2200);
+  }
+  return start;
+})();
+
 </script>
 </body>
 </html>
