@@ -342,8 +342,8 @@ body[data-theme="light"] .btn.primary { color: #fff; }
 <body>
 
 <div class="strip">
-  <div>BEX // FREQUENCY 26 — BẠCH HỒNG CƯỜNG</div>
-  <div class="mid">SIG.26 · BIRTHDAY BROADCAST</div>
+  <div>H3T - ONLY FOR CƯỜNG BẠCH</div>
+  <div class="mid">26TH BIRTHDAY BROADCAST</div>
   <div style="display:flex; align-items:center; gap:18px;">
     <div class="theme-switch" id="themeSwitch">
       <button class="sw" data-t="hologram" title="Hologram"></button>
@@ -357,10 +357,10 @@ body[data-theme="light"] .btn.primary { color: #fff; }
 </div>
 
 <header class="head">
-  <div class="kicker">A Fan Signal Project</div>
+  <div class="kicker">Fan Signal Project</div>
   <h1 class="title">FREQUENCY <span class="x">26</span></h1>
   <div class="subtitle">Tín hiệu sinh nhật cho Bạch Hồng Cường</div>
-  <p class="tagline">Mỗi lời chúc là một tín hiệu phát đi. Gửi lời nhắn của bạn — nó sẽ hiện lên màn radar cùng hàng nghìn tín hiệu khác.</p>
+  <p class="tagline">Mỗi lời chúc là một tín hiệu phát đi. Gửi lời nhắn của bạn — nó sẽ hiện lên màn radar cùng những tín hiệu khác.</p>
 
   <div class="countdown" id="countdown">
     <div class="cd-cell"><div class="cd-num" id="cdD">00</div><div class="cd-lab">Ngày</div></div>
@@ -372,7 +372,7 @@ body[data-theme="light"] .btn.primary { color: #fff; }
 
 <section class="radar-zone">
   <div class="radar-meta">
-    <div>FREQ // <b>432.0 Hz</b> — DEDICATED</div>
+    <div>FREQ // <b>236.0 Hz</b> — DEDICATED</div>
     <div>TÍN HIỆU: <b id="sigCount">0</b></div>
   </div>
   <div class="radar" id="radar">
@@ -424,7 +424,7 @@ body[data-theme="light"] .btn.primary { color: #fff; }
 <div class="modal-overlay" id="readModal">
   <div class="modal read">
     <button class="modal-close" id="readClose" aria-label="Đóng">×</button>
-    <div class="r-freq" id="rFreq">SIGNAL // 432.0 Hz</div>
+    <div class="r-freq" id="rFreq">SIGNAL // 236.0 Hz</div>
     <div class="r-msg" id="rMsg"></div>
     <div class="r-who" id="rWho"></div>
     <div class="r-when" id="rWhen"></div>
@@ -506,7 +506,7 @@ function freqStamp(id){
   // derive a pseudo frequency label from id for flavor
   let h=0; const str=String(id);
   for(let i=0;i<str.length;i++){ h=(h*31+str.charCodeAt(i))>>>0; }
-  return (400 + (h % 600) / 10).toFixed(1) + ' Hz';
+  return (200 + (h % 600) / 10).toFixed(1) + ' Hz';
 }
 
 /* place a blip inside radar circle (polar, avoid dead-center) */
