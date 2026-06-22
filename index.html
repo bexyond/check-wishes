@@ -214,9 +214,9 @@ body[data-theme="light"] .radar .sweep { mix-blend-mode: multiply; }
 /* blips */
 .blip {
   position: absolute; transform: translate(-50%,-50%);
-  width: 12px; height: 12px; border-radius: 50%;
+  width: 10px; height: 10px; border-radius: 50%;
   background: radial-gradient(circle, #fff 0%, var(--blip) 45%, var(--accent) 100%);
-  box-shadow: 0 0 8px var(--glow), 0 0 16px var(--glow);
+  box-shadow: 0 0 6px var(--glow), 0 0 12px var(--glow);
   cursor: pointer; z-index: 6;
   animation: blipPulse 2.6s ease-in-out infinite;
   transition: transform .15s ease;
@@ -605,27 +605,39 @@ function freqStamp(id){
   return (200 + (h % 600) / 10).toFixed(1) + ' Hz';
 }
 
-/* place a blip inside radar circle (polar, avoid dead-center) */
-function blipPos(seed){
-  let h=0; const str=String(seed);
-  for(let i=0;i<str.length;i++){ h=(h*131+str.charCodeAt(i))>>>0; }
-  const ang = (h % 360) * Math.PI/180;
-  const rad = 0.18 + ((h>>9) % 1000)/1000 * 0.62; // 18%..80% of radius
-  const cx = 50 + Math.cos(ang) * rad * 50;
-  const cy = 50 + Math.sin(ang) * rad * 50;
+/* Even distribution across the radar using a golden-angle (sunflower) layout.
+   Cách này đảm bảo các blip cách đều nhau, không bị dồn cụm hay đè lên nhau. */
+const GOLDEN = Math.PI * (3 - Math.sqrt(5)); // ~2.39996 rad
+function blipPosByIndex(index, total){
+  // jitter nhỏ, ổn định theo index để không quá "máy móc"
+  const jitterA = ((Math.sin(index * 12.9898) * 43758.5453) % 1) * 0.06;
+  const jitterR = ((Math.sin(index * 78.233) * 12543.123) % 1) * 0.04;
+  const ang = index * GOLDEN + jitterA;
+  // bán kính theo sqrt để mật độ đều trên diện tích; giới hạn 14%..86%
+  const frac = total > 1 ? index / (total - 1) : 0;
+  const rad = 0.14 + Math.sqrt(frac) * 0.72 + jitterR;
+  const cx = 50 + Math.cos(ang) * Math.min(rad, 0.9) * 50;
+  const cy = 50 + Math.sin(ang) * Math.min(rad, 0.9) * 50;
   return { left: cx, top: cy };
 }
 
-function renderBlip(w, fresh){
-  const p = blipPos(w.id);
-  const el = document.createElement('div');
-  el.className = 'blip' + (fresh ? ' fresh' : '');
-  el.style.left = p.left + '%';
-  el.style.top = p.top + '%';
-  el.style.animationDelay = (Math.random()*2.5) + 's';
-  el.title = w.name;
-  el.addEventListener('click', ()=> openRead(w));
-  radar().appendChild(el);
+function renderAllBlips(freshId){
+  const host = radar();
+  if(!host) return;
+  // xoá blip cũ (giữ lại các lớp nền: rings, sweep, center-dot, empty)
+  host.querySelectorAll('.blip').forEach(b=> b.remove());
+  const total = wishes.length;
+  wishes.forEach((w, i) => {
+    const p = blipPosByIndex(i, total);
+    const el = document.createElement('div');
+    el.className = 'blip' + (w.id === freshId ? ' fresh' : '');
+    el.style.left = p.left + '%';
+    el.style.top = p.top + '%';
+    el.style.animationDelay = ((i % 12) * 0.22) + 's';
+    el.title = w.name;
+    el.addEventListener('click', ()=> openRead(w));
+    host.appendChild(el);
+  });
 }
 
 function emitPulse(){
@@ -683,7 +695,7 @@ function addWish(w, fresh){
   if(seenIds.has(w.id)) return;
   seenIds.add(w.id);
   wishes.push(w);
-  renderBlip(w, fresh);
+  renderAllBlips(fresh ? w.id : null);
   renderFeed();
   updateCount();
 }
@@ -751,7 +763,12 @@ function showToast(){
 async function load(){
   const { data, error } = await sb.from('wishes').select('*').order('created_at',{ascending:true});
   if(error){ console.error(error); return; }
-  data.forEach(row=> addWish(normalize(row), false));
+  data.forEach(row => {
+    const w = normalize(row);
+    if(!seenIds.has(w.id)){ seenIds.add(w.id); wishes.push(w); }
+  });
+  renderAllBlips(null);
+  renderFeed();
   updateCount();
 
   sb.channel('wishes-realtime')
