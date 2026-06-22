@@ -3,1498 +3,657 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BE[X]YOND — Sky of Wishes for Cường Bạch</title>
+<title>FREQUENCY 26 — Tín hiệu sinh nhật cho Cường Bạch</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&family=Oswald:wght@400;500;600;700&family=Anton&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
+/* ════════════ THEME TOKENS ════════════ */
 :root {
-  /* ===== THEME: Hologram (default) ===== */
-  --bg: #0d0a1f;
-  --bg-grad-0: #140c2e;
-  --bg-grad-1: #1d1340;
-  --bg-grad-2: #2a1a55;
-  --grid-line: rgba(180,150,255,0.07);
+  /* Hologram (default) */
+  --bg0: #0c0a1c;
+  --bg1: #15102e;
+  --grid: rgba(185,138,255,0.10);
   --text: #f3f0ff;
-  --text-dim: rgba(243,240,255,0.85);
-  --text-faint: rgba(243,240,255,0.6);
-  --rose: #b98aff;
-  --rose-deep: #8a5cf0;
-  --rose-soft: #d9c6ff;
-  --silver: #cfc6e8;
-  --line: rgba(185,138,255,0.12);
-  --glow: rgba(185,138,255,0.55);
-  --glow-soft: rgba(160,200,255,0.4);
-  --star-core: #ffffff;
-  --star-mid: #d9c6ff;
-  --star-edge: #b98aff;
-  /* surface tokens (dark default; light theme overrides) */
-  --overlay: rgba(0,0,0,0.5);
-  --overlay-strong: rgba(0,0,0,0.72);
-  --topbar-grad: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 58%, transparent 100%);
-  --surface: rgba(255,255,255,0.06);
-  --surface-hover: rgba(255,255,255,0.14);
-  --panel: rgba(10,8,22,0.92);
-  --panel-grad: linear-gradient(180deg, rgba(20,14,38,0.95) 0%, rgba(10,8,22,0.98) 100%);
-  --input-bg: rgba(255,255,255,0.04);
-  --btn-text-hover: #ffffff;
-  --shadow: rgba(0,0,0,0.7);
-  --display: 'Cinzel', serif;
+  --dim: rgba(243,240,255,0.7);
+  --faint: rgba(243,240,255,0.42);
+  --accent: #b98aff;
+  --accent2: #6fb3ff;
+  --accent-deep: #8a5cf0;
+  --ring: rgba(185,138,255,0.35);
+  --blip: #d9c6ff;
+  --glow: rgba(185,138,255,0.6);
+  --surface: rgba(255,255,255,0.05);
+  --surface-line: rgba(255,255,255,0.12);
+  --panel: rgba(18,14,38,0.94);
+  --shadow: rgba(0,0,0,0.6);
+  --mono: 'JetBrains Mono', monospace;
+  --head: 'Oswald', sans-serif;
+  --anton: 'Anton', sans-serif;
+  --body: 'Be Vietnam Pro', sans-serif;
   --serif: 'Cormorant Garamond', serif;
-  --sans: 'Inter', sans-serif;
 }
-
-/* ===== THEME: Aurora (tím-hồng-lục) ===== */
 body[data-theme="aurora"] {
-  --bg: #07101a;
-  --bg-grad-0: #0a1f2e;
-  --bg-grad-1: #15324a;
-  --bg-grad-2: #1d4d52;
-  --grid-line: rgba(120,255,210,0.06);
-  --text: #f0fff9;
-  --text-dim: rgba(240,255,249,0.85);
-  --text-faint: rgba(240,255,249,0.6);
-  --rose: #5ef0c0;
-  --rose-deep: #2bb89a;
-  --rose-soft: #b8ffe8;
-  --silver: #cfeae0;
-  --line: rgba(94,240,192,0.12);
-  --glow: rgba(94,240,192,0.5);
-  --glow-soft: rgba(180,120,255,0.4);
-  --star-core: #ffffff;
-  --star-mid: #b8ffe8;
-  --star-edge: #5ef0c0;
+  --bg0: #06121a; --bg1: #0d2630; --grid: rgba(94,240,192,0.10);
+  --text: #effff9; --dim: rgba(239,255,249,0.7); --faint: rgba(239,255,249,0.42);
+  --accent: #5ef0c0; --accent2: #8a8cff; --accent-deep: #2bb89a;
+  --ring: rgba(94,240,192,0.32); --blip: #b8ffe8; --glow: rgba(94,240,192,0.55);
+  --surface: rgba(255,255,255,0.05); --surface-line: rgba(255,255,255,0.12);
+  --panel: rgba(8,28,32,0.94); --shadow: rgba(0,0,0,0.6);
 }
-
-/* ===== THEME: Sunset (cam-hồng-tím) ===== */
 body[data-theme="sunset"] {
-  --bg: #1a0a12;
-  --bg-grad-0: #2e0f1c;
-  --bg-grad-1: #4a1a2a;
-  --bg-grad-2: #5e2438;
-  --grid-line: rgba(255,180,140,0.07);
-  --text: #fff3ee;
-  --text-dim: rgba(255,243,238,0.85);
-  --text-faint: rgba(255,243,238,0.6);
-  --rose: #ff8a6a;
-  --rose-deep: #e0563a;
-  --rose-soft: #ffc6b0;
-  --silver: #f0d6cc;
-  --line: rgba(255,138,106,0.12);
-  --glow: rgba(255,138,106,0.5);
-  --glow-soft: rgba(255,200,120,0.4);
-  --star-core: #ffffff;
-  --star-mid: #ffc6b0;
-  --star-edge: #ff8a6a;
+  --bg0: #1a0a12; --bg1: #341320; --grid: rgba(255,170,130,0.10);
+  --text: #fff3ee; --dim: rgba(255,243,238,0.72); --faint: rgba(255,243,238,0.44);
+  --accent: #ff8a6a; --accent2: #ffc678; --accent-deep: #e0563a;
+  --ring: rgba(255,138,106,0.34); --blip: #ffc6b0; --glow: rgba(255,138,106,0.55);
+  --surface: rgba(255,255,255,0.05); --surface-line: rgba(255,255,255,0.12);
+  --panel: rgba(40,16,26,0.94); --shadow: rgba(0,0,0,0.6);
 }
-
-/* ===== THEME: Cobalt (xanh — concept cũ) ===== */
 body[data-theme="cobalt"] {
-  --bg: #061b4d;
-  --bg-grad-0: #061b4d;
-  --bg-grad-1: #0a2c82;
-  --bg-grad-2: #0e3faf;
-  --grid-line: rgba(135,175,255,0.06);
-  --text: #f5f8ff;
-  --text-dim: rgba(245,248,255,0.85);
-  --text-faint: rgba(245,248,255,0.62);
-  --rose: #6f9fff;
-  --rose-deep: #2c66e4;
-  --rose-soft: #c6d8ff;
-  --silver: #d6ddf2;
-  --line: rgba(44,102,228,0.12);
-  --glow: rgba(135,175,255,0.5);
-  --glow-soft: rgba(135,175,255,0.35);
-  --star-core: #ffffff;
-  --star-mid: #c6d8ff;
-  --star-edge: #6f9fff;
+  --bg0: #061227; --bg1: #0a2350; --grid: rgba(135,175,255,0.10);
+  --text: #f5f8ff; --dim: rgba(245,248,255,0.7); --faint: rgba(245,248,255,0.42);
+  --accent: #6f9fff; --accent2: #8ad0ff; --accent-deep: #2c66e4;
+  --ring: rgba(135,175,255,0.34); --blip: #c6d8ff; --glow: rgba(135,175,255,0.55);
+  --surface: rgba(255,255,255,0.05); --surface-line: rgba(255,255,255,0.12);
+  --panel: rgba(8,24,56,0.94); --shadow: rgba(0,0,0,0.6);
 }
-
-/* ===== THEME: Light (nền sáng) ===== */
 body[data-theme="light"] {
-  --bg: #eef1fb;
-  --bg-grad-0: #f7f8fe;
-  --bg-grad-1: #e9ecfa;
-  --bg-grad-2: #dde2f5;
-  --grid-line: rgba(90,80,160,0.07);
-  --text: #1a1730;
-  --text-dim: rgba(26,23,48,0.78);
-  --text-faint: rgba(26,23,48,0.5);
-  --rose: #7a5cf0;
-  --rose-deep: #5a3cd0;
-  --rose-soft: #6a52c8;
-  --silver: #4a4570;
-  --line: rgba(122,92,240,0.18);
-  --glow: rgba(122,92,240,0.35);
-  --glow-soft: rgba(150,180,255,0.3);
-  --star-core: #7a5cf0;
-  --star-mid: #9d8aff;
-  --star-edge: #c6baff;
-  --overlay: rgba(255,255,255,0.45);
-  --overlay-strong: rgba(255,255,255,0.7);
-  --topbar-grad: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.55) 58%, transparent 100%);
-  --surface: rgba(26,23,48,0.05);
-  --surface-hover: rgba(122,92,240,0.14);
-  --panel: rgba(255,255,255,0.96);
-  --panel-grad: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(244,245,253,0.99) 100%);
-  --input-bg: rgba(26,23,48,0.04);
-  --btn-text-hover: #ffffff;
-  --shadow: rgba(60,50,120,0.22);
+  --bg0: #eef0fa; --bg1: #dde2f3; --grid: rgba(90,80,160,0.08);
+  --text: #1a1730; --dim: rgba(26,23,48,0.72); --faint: rgba(26,23,48,0.45);
+  --accent: #7a5cf0; --accent2: #4a8cf0; --accent-deep: #5a3cd0;
+  --ring: rgba(122,92,240,0.30); --blip: #7a5cf0; --glow: rgba(122,92,240,0.4);
+  --surface: rgba(26,23,48,0.05); --surface-line: rgba(26,23,48,0.14);
+  --panel: rgba(255,255,255,0.97); --shadow: rgba(60,50,120,0.25);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 html, body { min-height: 100%; }
 body {
+  font-family: var(--body);
+  color: var(--text);
   background:
-    repeating-linear-gradient(90deg, var(--grid-line) 0 1px, transparent 1px 44px),
-    linear-gradient(180deg, var(--bg-grad-0) 0%, var(--bg-grad-1) 45%, var(--bg-grad-2) 100%);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  color: var(--text);
-  font-family: var(--serif);
-  overflow-x: hidden;
-  overflow-y: auto;
-  position: relative;
-}
-
-/* Grain overlay */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 100;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode: overlay;
-}
-body[data-theme="light"]::before { opacity: 0.025; mix-blend-mode: multiply; }
-
-/* ===== Background ===== */
-.music-frame {
-  position: fixed;
-  width: 1px;
-  height: 1px;
-  left: -10px;
-  top: -10px;
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* ===== THEME SWITCHER ===== */
-.topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  pointer-events: auto;
-}
-.theme-switch {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 7px 11px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--line);
-  backdrop-filter: blur(10px);
-}
-.theme-switch .swatch {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,0.35);
-  cursor: pointer;
-  padding: 0;
-  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-}
-.theme-switch .swatch:hover { transform: scale(1.18); }
-.theme-switch .swatch.active {
-  border-color: #fff;
-  box-shadow: 0 0 0 2px rgba(255,255,255,0.25), 0 0 12px currentColor;
-}
-.theme-switch .swatch[data-set="hologram"] { background: linear-gradient(135deg, #b98aff, #6f9fff); color: #b98aff; }
-.theme-switch .swatch[data-set="aurora"]   { background: linear-gradient(135deg, #5ef0c0, #8a5cf0); color: #5ef0c0; }
-.theme-switch .swatch[data-set="sunset"]   { background: linear-gradient(135deg, #ff8a6a, #ffc678); color: #ff8a6a; }
-.theme-switch .swatch[data-set="cobalt"]   { background: linear-gradient(135deg, #6f9fff, #2c66e4); color: #6f9fff; }
-.theme-switch .swatch[data-set="light"]    { background: linear-gradient(135deg, #ffffff, #d9d2f5); color: #c6baff; }
-@media (max-width: 640px) {
-  .theme-switch { gap: 7px; padding: 6px 9px; }
-  .theme-switch .swatch { width: 15px; height: 15px; }
-  .topbar-right { gap: 12px; }
-}
-
-/* ===== TOP BAR ===== */
-.topbar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 60;
-  padding: 24px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  pointer-events: none;
-  background: var(--topbar-grad);
-  backdrop-filter: blur(16px);
-}
-.topbar > * { pointer-events: auto; }
-.logo {
-  display: flex;
-  align-items: center;
-  width: 140px;
-  height: 40px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-}
-.logo img {
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-.logo:hover { opacity: 0.82; }
-body[data-theme="light"] .logo img,
-body[data-theme="light"] .intro-logo {
-  filter: invert(1) hue-rotate(180deg) brightness(0.85);
-}
-.counter {
-  font-family: var(--sans);
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-.counter strong {
-  color: var(--rose-soft);
-  font-family: var(--display);
-  font-size: 16px;
-  letter-spacing: 0.1em;
-  font-weight: 500;
-  margin-right: 4px;
-}
-@media (max-width: 640px) {
-  .topbar { padding: 16px 20px; }
-  .counter { font-size: 10px; }
-}
-
-/* ===== INTRO OVERLAY ===== */
-.intro {
-  position: relative;
+    repeating-linear-gradient(90deg, var(--grid) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(0deg, var(--grid) 0 1px, transparent 1px 48px),
+    radial-gradient(ellipse at 50% 0%, var(--bg1) 0%, var(--bg0) 70%);
+  background-attachment: fixed;
   min-height: 100vh;
-  min-height: 100svh;
-  z-index: 40;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 72px 24px 80px;
-  text-align: center;
-  background: radial-gradient(ellipse at center, var(--overlay) 0%, var(--overlay-strong) 70%);
-  backdrop-filter: blur(6px);
-  transition: opacity .8s ease, visibility .8s ease;
-}
-.intro.hidden { display: none; opacity: 0; visibility: hidden; pointer-events: none; }
-.intro-logo {
-  display: block;
-  width: min(640px, calc(100vw - 48px));
-  max-height: 21vh;
-  height: auto;
-  object-fit: contain;
-  margin-bottom: 12px;
-}
-.intro-actions {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.intro-tag {
-  font-family: var(--sans);
-  font-size: 11px;
-  letter-spacing: 0.5em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 24px;
-}
-.intro-tag::before, .intro-tag::after {
-  content: '—';
-  margin: 0 14px;
-  color: var(--rose);
-}
-.intro h1 {
-  font-family: var(--display);
-  font-weight: 500;
-  font-size: clamp(38px, 8vw, 92px);
-  letter-spacing: 0.04em;
-  line-height: 1;
-  margin-bottom: 20px;
-  background: linear-gradient(180deg, #ffffff 0%, var(--rose-soft) 70%, var(--rose) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 60px var(--glow);
-}
-.intro h1 .b {
-  background: linear-gradient(180deg, #ffffff 0%, var(--rose) 70%, var(--rose-deep) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-style: italic;
-}
-.intro p.sub {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: clamp(18px, 2.6vw, 28px);
-  color: var(--silver);
-  letter-spacing: 0.03em;
-  margin-bottom: 16px;
-}
-.intro p.desc {
-  font-family: var(--serif);
-  font-size: clamp(15px, 1.7vw, 18px);
-  color: var(--text-dim);
-  max-width: 540px;
-  line-height: 1.75;
-  margin-bottom: 24px;
-}
-.btn {
-  display: inline-block;
-  padding: 16px 42px;
-  border: 1px solid var(--rose);
-  background: var(--surface);
-  color: var(--rose-soft);
-  font-family: var(--sans);
-  font-size: 11px;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all .4s ease;
-  backdrop-filter: blur(10px);
-  position: relative;
-  overflow: hidden;
-}
-.btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, var(--glow), transparent);
-  transform: translateX(-100%);
-  transition: transform .6s ease;
-}
-.btn:hover { background: var(--surface-hover); color: var(--btn-text-hover); }
-.btn:hover::before { transform: translateX(100%); }
-.btn-ghost {
-  border-color: var(--line);
-  background: transparent;
-  color: var(--text-dim);
-  padding: 14px 32px;
-}
-.btn-ghost:hover { border-color: var(--rose); color: var(--rose-soft); background: rgba(255,255,255,0.05); }
-
-/* ===== SKY (main canvas) ===== */
-.sky {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  cursor: default;
-}
-/* Center glow on sky */
-.sky::before {
-  content: '';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70vmin; height: 70vmin;
-  background: radial-gradient(circle, var(--glow-soft) 0%, transparent 60%);
-  filter: blur(40px);
-  pointer-events: none;
-  animation: skyPulse 6s ease-in-out infinite;
-}
-@keyframes skyPulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
+  overflow-x: hidden;
+  transition: background .5s ease, color .4s ease;
 }
 
-/* ===== WISH STAR ===== */
-.wish-star {
-  position: absolute;
-  cursor: pointer;
-  transform: translate(-50%, -50%);
-  z-index: 5;
-  --size: 5px;
-  width: var(--size);
-  height: var(--size);
+/* ════════════ TOP STRIP ════════════ */
+.strip {
+  position: sticky; top: 0; z-index: 80;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 40px; padding: 0 20px;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--bg0) 82%, transparent);
+  border-bottom: 1px solid var(--surface-line);
+  backdrop-filter: blur(12px);
 }
-.wish-star::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  background: radial-gradient(circle, var(--glow) 0%, transparent 68%);
-  border-radius: 50%;
-  transition: all .4s ease;
+.strip .live { display: flex; align-items: center; gap: 7px; }
+.strip .dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 8px var(--accent); animation: blink 1.5s ease-in-out infinite;
 }
-.wish-star .core {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--star-core) 0%, var(--star-mid) 50%, var(--star-edge) 100%);
-  box-shadow:
-    0 0 4px rgba(255,255,255,0.9),
-    0 0 10px var(--glow),
-    0 0 18px var(--glow-soft);
-  animation: starPulse 3s ease-in-out infinite;
-}
-@keyframes starPulse {
-  0%, 100% { opacity: 0.85; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.18); }
-}
-.wish-star:hover { z-index: 30; }
-.wish-star:hover::before {
-  inset: -16px;
-  background: radial-gradient(circle, var(--glow) 0%, transparent 65%);
-}
-.wish-star:hover .core { transform: scale(1.35); }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+.strip .mid { color: var(--faint); }
+@media (max-width: 720px){ .strip .mid { display: none; } }
 
-/* Just-added burst animation */
-@keyframes burst {
-  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-  20% { opacity: 1; }
-  50% { transform: translate(-50%, -50%) scale(3); }
-  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+/* theme switch */
+.theme-switch { display: flex; align-items: center; gap: 8px; }
+.theme-switch .sw {
+  width: 17px; height: 17px; border-radius: 50%; cursor: pointer; padding: 0;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  transition: transform .2s, box-shadow .2s, border-color .2s;
 }
-.wish-star.new {
-  animation: burst 1.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+.theme-switch .sw:hover { transform: scale(1.2); }
+.theme-switch .sw.active { border-color: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,0.25), 0 0 10px currentColor; }
+.sw[data-t="hologram"]{ background: linear-gradient(135deg,#b98aff,#6fb3ff); color:#b98aff; }
+.sw[data-t="aurora"]{ background: linear-gradient(135deg,#5ef0c0,#8a8cff); color:#5ef0c0; }
+.sw[data-t="sunset"]{ background: linear-gradient(135deg,#ff8a6a,#ffc678); color:#ff8a6a; }
+.sw[data-t="cobalt"]{ background: linear-gradient(135deg,#6f9fff,#2c66e4); color:#6f9fff; }
+.sw[data-t="light"]{ background: linear-gradient(135deg,#fff,#d9d2f5); color:#c6baff; }
+body[data-theme="light"] .theme-switch .sw { border-color: rgba(26,23,48,0.3); }
+
+/* ════════════ HEADER ════════════ */
+.head {
+  text-align: center; padding: 46px 24px 10px;
 }
-.wish-star.new::after {
-  content: '';
-  position: absolute;
-  inset: -28px;
-  border-radius: 50%;
-  border: 1px solid var(--rose);
-  animation: ripple 1.8s ease-out forwards;
+.kicker {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.34em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
 }
-@keyframes ripple {
-  0% { transform: scale(0.2); opacity: 1; }
-  100% { transform: scale(3); opacity: 0; }
+.title {
+  font-family: var(--anton); font-weight: 400;
+  font-size: clamp(48px, 11vw, 128px); line-height: .88;
+  text-transform: uppercase; letter-spacing: 0.01em;
+  background: linear-gradient(180deg, var(--text) 0%, var(--accent) 130%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.title .x { color: var(--accent); -webkit-text-fill-color: var(--accent); font-style: italic; }
+.subtitle {
+  font-family: var(--head); font-weight: 600; font-size: clamp(13px, 2vw, 18px);
+  letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent2); margin-top: 14px;
+}
+.tagline {
+  font-family: var(--serif); font-style: italic; font-size: clamp(15px,1.8vw,19px);
+  color: var(--dim); max-width: 540px; margin: 16px auto 0; line-height: 1.6;
 }
 
-/* ===== TOOLTIP ===== */
-.tooltip {
-  position: fixed;
-  z-index: 70;
-  pointer-events: none;
-  background: var(--panel);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(111,159,255,0.3);
-  padding: 18px 22px;
-  max-width: 340px;
-  min-width: 240px;
-  transform: translate(-50%, calc(-100% - 24px));
-  opacity: 0;
-  transition: opacity .25s ease;
-  box-shadow: 0 12px 60px var(--shadow), 0 0 30px var(--glow-soft);
-}
-.tooltip.show { opacity: 1; }
-.tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%; left: 50%;
-  transform: translateX(-50%);
-  width: 0; height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 8px solid rgba(111,159,255,0.3);
-}
-.tooltip .tt-from {
-  font-family: var(--sans);
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--rose);
-  margin-bottom: 8px;
-}
-.tooltip .tt-name {
-  font-family: var(--display);
-  font-size: 15px;
-  letter-spacing: 0.05em;
-  color: var(--text);
-  margin-bottom: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--line);
-}
-.tooltip .tt-msg {
-  font-family: var(--serif);
-  font-size: 16px;
-  font-style: italic;
-  line-height: 1.6;
-  color: var(--silver);
-}
-.tooltip .tt-date {
-  margin-top: 12px;
-  font-family: var(--sans);
-  font-size: 9px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-}
-
-/* ===== ADD WISH BUTTON (sky view) ===== */
-.add-fab {
-  position: fixed;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-.add-fab .hint {
-  font-family: var(--sans);
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-}
-@media (max-width: 640px) {
-  .add-fab { bottom: 24px; }
-  .add-fab .btn { padding: 14px 28px; font-size: 10px; }
-}
-
-/* ===== FORM MODAL ===== */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-  background: var(--overlay);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .4s ease, visibility .4s ease;
-}
-.modal-overlay.show { opacity: 1; visibility: visible; }
-.modal {
-  width: 100%;
-  max-width: 540px;
-  background: var(--panel-grad);
-  border: 1px solid rgba(111,159,255,0.25);
-  padding: 48px 44px 40px;
-  position: relative;
-  transform: translateY(20px);
-  transition: transform .4s ease;
-  box-shadow: 0 30px 80px var(--shadow), 0 0 60px var(--glow-soft);
-}
-.modal-overlay.show .modal { transform: translateY(0); }
-.modal-close {
-  position: absolute;
-  top: 16px; right: 16px;
-  width: 32px; height: 32px;
-  background: transparent;
-  border: 1px solid var(--line);
-  color: var(--text-dim);
-  font-family: var(--serif);
-  font-size: 18px;
-  cursor: pointer;
-  transition: all .3s ease;
-}
-.modal-close:hover { color: var(--rose); border-color: var(--rose); }
-.modal-tag {
-  font-family: var(--sans);
-  font-size: 10px;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  color: var(--rose);
-  margin-bottom: 16px;
-}
-.modal-tag::before {
-  content: '';
-  display: inline-block;
-  width: 20px;
-  height: 1px;
-  background: var(--rose);
-  vertical-align: middle;
-  margin-right: 12px;
-}
-.modal-title {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 700;
-  font-size: clamp(34px, 5vw, 48px);
-  letter-spacing: 0;
-  line-height: 1.2;
-  margin-bottom: 12px;
-  background: linear-gradient(180deg, #fff 0%, #9db4e0 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.modal-sub {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 15px;
-  color: var(--text-dim);
-  margin-bottom: 32px;
-  line-height: 1.6;
-}
-
-.field {
-  margin-bottom: 24px;
-}
-.field label {
-  display: block;
-  font-family: var(--sans);
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 10px;
-}
-.field input,
-.field textarea {
-  width: 100%;
-  background: var(--input-bg);
-  border: 1px solid var(--line);
-  color: var(--text);
-  font-family: var(--serif);
-  font-size: 16px;
-  padding: 14px 16px;
-  outline: none;
-  transition: all .3s ease;
-  resize: none;
-}
-.field textarea {
-  min-height: 120px;
-  font-style: italic;
-  line-height: 1.6;
-}
-.field input:focus,
-.field textarea:focus {
-  border-color: var(--rose);
-  background: var(--input-bg);
-}
-.field input::placeholder,
-.field textarea::placeholder {
-  color: var(--text-faint);
-  font-style: italic;
-}
-.char-count {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 6px;
-  font-family: var(--sans);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  color: var(--text-faint);
-}
-.char-count.warn { color: var(--rose); }
-
-.modal-actions {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 12px;
-  margin-top: 8px;
-}
-.modal-actions .btn {
-  width: 100%;
-  min-width: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  white-space: nowrap;
-}
-
-@media (max-width: 640px) {
-  .modal { padding: 36px 24px 28px; }
-  .modal-actions {
-    gap: 10px;
-  }
-  .modal-actions .btn {
-    min-height: 54px;
-    padding: 13px 12px;
-    font-size: 9px;
-    letter-spacing: 0.22em;
-  }
-}
-
-@media (max-width: 380px) {
-  .modal-actions .btn {
-    padding-inline: 8px;
-    font-size: 8px;
-    letter-spacing: 0.16em;
-  }
-}
-
-/* ===== SUCCESS TOAST ===== */
-.toast {
-  position: fixed;
-  top: 80px;
-  left: 50%;
-  transform: translate(-50%, -20px);
-  z-index: 90;
-  background: var(--panel);
-  border: 1px solid var(--rose);
-  padding: 14px 28px;
-  font-family: var(--sans);
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--rose-soft);
-  opacity: 0;
-  visibility: hidden;
-  transition: all .5s cubic-bezier(0.2, 0.8, 0.2, 1);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 40px var(--glow-soft);
-}
-.toast.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, 0);
-}
-
-/* ===== EMPTY STATE ===== */
-.empty {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 6;
-}
-.empty.hidden { display: none; }
-.empty p {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 18px;
-  color: var(--text-faint);
-  max-width: 360px;
-  line-height: 1.6;
-}
-
-/* ===== BOTTOM CREDIT ===== */
-.credit {
-  position: fixed;
-  bottom: 18px;
-  right: 24px;
-  z-index: 50;
-  font-family: var(--sans);
-  font-size: 9px;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-}
-@media (max-width: 640px) {
-  .credit {
-    right: 14px;
-    bottom: 12px;
-    max-width: calc(100vw - 28px);
-    font-size: 8px;
-    letter-spacing: 0.28em;
-  }
-}
-/* ===== COUNTDOWN (normal flow, centered) ===== */
-.countdown-wrap {
-  width: min(560px, calc(100vw - 48px));
-  aspect-ratio: 823 / 214;
-  max-width: calc(100vw - 48px);
-  margin: 0 auto;
-  padding: 54px 48px 24px;
-  background: url("assests/countdown.png") center / 100% 100% no-repeat;
-  position: relative;
-  overflow: visible;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.intro .countdown-wrap {
-  margin-top: 18px;
-}
+/* ════════════ COUNTDOWN ════════════ */
 .countdown {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
+  display: flex; justify-content: center; gap: 14px; margin: 28px auto 0; flex-wrap: wrap;
 }
-.time-box {
-  text-align: center;
-  min-width: 66px;
+.cd-cell {
+  min-width: 78px; padding: 12px 8px 9px; text-align: center;
+  background: var(--surface); border: 1px solid var(--surface-line);
+  border-radius: 10px; backdrop-filter: blur(6px);
 }
-.time-box div {
-  font-family: var(--serif);
-  font-size: 34px;
-  line-height: 1;
-  color: var(--text);
-  font-weight: 500;
-  text-shadow:
-    0 0 12px rgba(255,255,255,.15),
-    0 0 24px rgba(111,159,255,.12);
-}
-.time-box small {
-  display: block;
-  margin-top: 8px;
-  font-family: var(--sans);
-  font-size: 10px;
-  letter-spacing: 4px;
-  color: var(--silver);
-}
-.divider {
-  width: 1px;
-  height: 32px;
-  background: linear-gradient(to bottom, transparent, rgba(255,255,255,.45), transparent);
-  opacity: .5;
-}
-@media (max-width: 640px) {
-  .intro {
-    padding: 86px 16px 56px;
-  }
-  .intro-logo {
-    width: min(400px, calc(100vw - 32px));
-    max-height: 18vh;
-  }
-  .intro p.sub {
-    margin-bottom: 12px;
-  }
-  .intro p.desc {
-    max-width: min(560px, calc(100vw - 32px));
-    margin-bottom: 18px;
-  }
-  .intro-actions {
-    width: 100%;
-  }
-  .intro-actions .btn {
-    min-width: min(300px, calc(100vw - 48px));
-  }
-  .countdown-wrap {
-    width: min(360px, calc(100vw - 32px));
-    max-width: calc(100vw - 32px);
-    padding: 14px 26px 18px;
-  }
-  .countdown {
-    gap: 8px;
-  }
-  .time-box {
-    min-width: 46px;
-  }
-  .time-box div {
-    font-size: 26px;
-  }
-  .time-box small {
-    font-size: 7px;
-    letter-spacing: 1.6px;
-  }
-  .divider {
-    height: 26px;
-  }
+.cd-num { font-family: var(--mono); font-weight: 700; font-size: clamp(26px,4vw,40px); color: var(--text); line-height: 1; }
+.cd-lab { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--faint); margin-top: 7px; }
+.cd-sep { display: none; }
+.cd-done {
+  font-family: var(--head); font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em;
+  font-size: clamp(20px,3vw,30px); color: var(--accent); padding: 18px 0;
 }
 
-@media (max-height: 820px) {
-  .intro {
-    padding-top: 82px;
-    padding-bottom: 44px;
-  }
-  .intro-logo {
-    max-height: 18vh;
-    margin-bottom: 8px;
-  }
-  .intro p.sub {
-    margin-bottom: 10px;
-  }
-  .intro p.desc {
-    line-height: 1.55;
-    margin-bottom: 16px;
-  }
-  .intro .countdown-wrap {
-    margin-top: 14px;
-  }
+/* ════════════ RADAR ════════════ */
+.radar-zone { padding: 30px 16px 60px; display: flex; flex-direction: column; align-items: center; }
+.radar-meta {
+  width: min(680px, 94vw); display: flex; justify-content: space-between; align-items: flex-end;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--faint);
+  margin-bottom: 14px;
+}
+.radar-meta b { color: var(--accent); font-weight: 700; }
+.radar {
+  position: relative; width: min(680px, 94vw); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--accent) 6%, transparent) 0%, transparent 70%);
+  border: 1px solid var(--ring);
+  box-shadow: 0 0 0 1px var(--surface-line) inset, 0 30px 80px var(--shadow);
+  overflow: hidden;
+  -webkit-user-select: none; user-select: none;
+}
+/* range rings */
+.radar .rring {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  border: 1px solid var(--ring); border-radius: 50%; pointer-events: none; opacity: .5;
+}
+.radar .rring.r1 { width: 25%; height: 25%; }
+.radar .rring.r2 { width: 50%; height: 50%; }
+.radar .rring.r3 { width: 75%; height: 75%; }
+/* crosshair */
+.radar .cross { position: absolute; background: var(--ring); pointer-events: none; opacity: .4; }
+.radar .cross.h { top: 50%; left: 0; right: 0; height: 1px; }
+.radar .cross.v { left: 50%; top: 0; bottom: 0; width: 1px; }
+/* sweep */
+.radar .sweep {
+  position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+  background: conic-gradient(from 0deg, color-mix(in srgb, var(--accent) 38%, transparent) 0deg, transparent 46deg, transparent 360deg);
+  animation: sweep 5s linear infinite; mix-blend-mode: screen;
+}
+body[data-theme="light"] .radar .sweep { mix-blend-mode: multiply; }
+@keyframes sweep { to { transform: rotate(360deg); } }
+.radar .center-dot {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 10px; height: 10px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 14px var(--accent); pointer-events: none; z-index: 5;
+}
+/* blips */
+.blip {
+  position: absolute; transform: translate(-50%,-50%);
+  width: 12px; height: 12px; border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, var(--blip) 45%, var(--accent) 100%);
+  box-shadow: 0 0 8px var(--glow), 0 0 16px var(--glow);
+  cursor: pointer; z-index: 6;
+  animation: blipPulse 2.6s ease-in-out infinite;
+  transition: transform .15s ease;
+}
+.blip::after {
+  content: ''; position: absolute; inset: -6px; border-radius: 50%;
+  border: 1px solid var(--accent); opacity: 0; animation: blipPing 2.6s ease-out infinite;
+}
+.blip:hover { transform: translate(-50%,-50%) scale(1.5); z-index: 9; }
+.blip.fresh { animation: blipArrive 1s ease-out, blipPulse 2.6s ease-in-out 1s infinite; }
+@keyframes blipPulse { 0%,100%{opacity:.65} 50%{opacity:1} }
+@keyframes blipPing { 0%{opacity:.7; transform:scale(.6)} 100%{opacity:0; transform:scale(2.4)} }
+@keyframes blipArrive { 0%{transform:translate(-50%,-50%) scale(0); opacity:0} 40%{transform:translate(-50%,-50%) scale(2.2); opacity:1} 100%{transform:translate(-50%,-50%) scale(1)} }
+/* emit pulse on send */
+.emit {
+  position: absolute; top:50%; left:50%; transform: translate(-50%,-50%);
+  width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--accent);
+  pointer-events: none; z-index: 4; opacity: .9;
+  animation: emit 1.4s ease-out forwards;
+}
+@keyframes emit { 0%{width:12px;height:12px;opacity:.9} 100%{width:100%;height:100%;opacity:0} }
+.radar-empty {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, calc(-50% + 40px));
+  width: 80%; text-align: center; font-family: var(--mono); font-size: 12px;
+  color: var(--faint); line-height: 1.7; pointer-events: none;
 }
 
-/* When intro overlay is visible, lift countdown up by the same gap as between the buttons and the description */
-.intro:not(.hidden) ~ .countdown-wrap {
-  bottom: calc(18px + 24px);
-  transition: bottom .36s ease;
+/* send button under radar */
+.send-row { margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.btn {
+  font-family: var(--head); font-weight: 600; font-size: 14px; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 15px 30px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--accent); color: var(--text); background: var(--surface);
+  display: inline-flex; align-items: center; gap: 9px;
+  transition: background .2s, transform .2s, box-shadow .2s;
+}
+.btn:hover { background: color-mix(in srgb, var(--accent) 20%, transparent); transform: translateY(-2px); box-shadow: 0 10px 30px -8px var(--glow); }
+.btn.primary { background: var(--accent-deep); border-color: var(--accent-deep); color: #fff; }
+body[data-theme="light"] .btn.primary { color: #fff; }
+.btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+
+/* ════════════ FEED (recent signals list) ════════════ */
+.feed { width: min(680px, 94vw); margin: 46px auto 0; }
+.feed-h {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+}
+.feed-h::after { content: ''; flex: 1; height: 1px; background: var(--surface-line); }
+.feed-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.sig-card {
+  background: var(--surface); border: 1px solid var(--surface-line); border-radius: 12px;
+  padding: 16px 16px 14px; position: relative; overflow: hidden;
+  transition: transform .2s, border-color .2s;
+}
+.sig-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+.sig-card .freq { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 10px; }
+.sig-card .msg { font-family: var(--serif); font-size: 17px; line-height: 1.45; color: var(--text); margin-bottom: 12px; }
+.sig-card .who { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+.sig-card .when { font-family: var(--mono); font-size: 10px; color: var(--faint); margin-top: 3px; }
+
+/* ════════════ FOOTER ════════════ */
+.foot {
+  text-align: center; padding: 50px 24px 40px; margin-top: 40px;
+  border-top: 1px solid var(--surface-line);
+}
+.foot .logo { font-family: var(--anton); font-size: 26px; letter-spacing: 0.04em; color: var(--text); }
+.foot .logo .x { color: var(--accent); font-style: italic; }
+.foot p { font-family: var(--serif); font-style: italic; color: var(--dim); margin-top: 10px; }
+.foot .tags { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--faint); margin-top: 18px; }
+
+/* ════════════ MODAL ════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200; display: none;
+  align-items: center; justify-content: center; padding: 24px;
+  background: color-mix(in srgb, var(--bg0) 70%, transparent); backdrop-filter: blur(8px);
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  width: min(480px, 100%); background: var(--panel); border: 1px solid var(--surface-line);
+  border-radius: 18px; padding: 30px; position: relative;
+  box-shadow: 0 30px 80px var(--shadow), 0 0 60px -20px var(--glow);
+}
+.modal-close {
+  position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--surface-line); background: transparent; color: var(--dim); cursor: pointer;
+  font-size: 18px; line-height: 1; transition: .2s;
+}
+.modal-close:hover { border-color: var(--accent); color: var(--accent); }
+.modal .m-tag { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); }
+.modal .m-title { font-family: var(--head); font-weight: 700; font-size: 26px; text-transform: uppercase; letter-spacing: 0.04em; margin: 8px 0 6px; }
+.modal .m-sub { font-family: var(--serif); font-size: 16px; color: var(--dim); line-height: 1.5; margin-bottom: 20px; }
+.field { margin-bottom: 16px; }
+.field label { display: block; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); margin-bottom: 7px; }
+.field input, .field textarea {
+  width: 100%; font-family: var(--body); font-size: 15px; color: var(--text);
+  background: var(--surface); border: 1px solid var(--surface-line); border-radius: 9px;
+  padding: 12px 14px; outline: none; transition: border-color .2s;
+}
+.field textarea { min-height: 110px; resize: vertical; line-height: 1.5; }
+.field input:focus, .field textarea:focus { border-color: var(--accent); }
+.char-count { font-family: var(--mono); font-size: 10px; color: var(--faint); text-align: right; margin-top: 5px; }
+.char-count.warn { color: var(--accent); }
+.modal .btn { width: 100%; justify-content: center; }
+
+/* read-blip modal */
+.read { text-align: center; }
+.read .r-freq { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 16px; }
+.read .r-msg { font-family: var(--serif); font-size: 22px; line-height: 1.5; color: var(--text); margin-bottom: 18px; }
+.read .r-who { font-family: var(--head); font-weight: 600; font-size: 15px; color: var(--accent2); letter-spacing: 0.04em; }
+.read .r-when { font-family: var(--mono); font-size: 11px; color: var(--faint); margin-top: 6px; }
+
+/* toast */
+.toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+  z-index: 300; background: var(--panel); border: 1px solid var(--accent);
+  border-radius: 999px; padding: 13px 26px; font-family: var(--mono); font-size: 12px;
+  letter-spacing: 0.06em; color: var(--text); box-shadow: 0 14px 40px var(--shadow);
+  opacity: 0; pointer-events: none; transition: .35s;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* floating add button (mobile/after scroll) */
+.fab {
+  position: fixed; bottom: 22px; right: 22px; z-index: 90; display: none;
+}
+@media (max-width: 720px){
+  .radar-meta { font-size: 10px; }
+  .cd-cell { min-width: 64px; }
 }
 </style>
 </head>
 <body>
 
-<iframe id="musicPlayer" class="music-frame" aria-hidden="true" frameborder="0" allow="autoplay"></iframe>
-<audio id="bgMusic" src="assests/Ng%C3%A2n%20nga.m4a" preload="auto" autoplay loop></audio>
-
-<!-- Top bar -->
-<div class="topbar">
-  <button class="logo" id="homeLogo" type="button" aria-label="Về trang chủ"><img src="assests/h3t.png" alt="H3T.ONLYFORCB"></button>
-  <div class="topbar-right">
-    <div class="theme-switch" id="themeSwitch" role="group" aria-label="Đổi màu giao diện">
-      <button type="button" class="swatch" data-set="hologram" title="Hologram" aria-label="Hologram"></button>
-      <button type="button" class="swatch" data-set="aurora" title="Aurora" aria-label="Aurora"></button>
-      <button type="button" class="swatch" data-set="sunset" title="Sunset" aria-label="Sunset"></button>
-      <button type="button" class="swatch" data-set="cobalt" title="Cobalt" aria-label="Cobalt"></button>
-      <button type="button" class="swatch" data-set="light" title="Light" aria-label="Light"></button>
+<div class="strip">
+  <div>BEX // FREQUENCY 26 — BẠCH HỒNG CƯỜNG</div>
+  <div class="mid">SIG.26 · BIRTHDAY BROADCAST</div>
+  <div style="display:flex; align-items:center; gap:18px;">
+    <div class="theme-switch" id="themeSwitch">
+      <button class="sw" data-t="hologram" title="Hologram"></button>
+      <button class="sw" data-t="aurora" title="Aurora"></button>
+      <button class="sw" data-t="sunset" title="Sunset"></button>
+      <button class="sw" data-t="cobalt" title="Cobalt"></button>
+      <button class="sw" data-t="light" title="Light"></button>
     </div>
-    <div class="counter"><strong id="counter">0</strong>LỜI NHẮN</div>
+    <div class="live"><span class="dot"></span>LIVE</div>
   </div>
 </div>
 
-<!-- Sky canvas -->
-<div class="sky" id="sky">
-  <div class="empty" id="empty">
-    <p>Chưa có ngôi sao nào trên bầu trời.<br>Hãy là người đầu tiên gửi lời nhắn cho Cường.</p>
+<header class="head">
+  <div class="kicker">A Fan Signal Project</div>
+  <h1 class="title">FREQUENCY <span class="x">26</span></h1>
+  <div class="subtitle">Tín hiệu sinh nhật cho Bạch Hồng Cường</div>
+  <p class="tagline">Mỗi lời chúc là một tín hiệu phát đi. Gửi lời nhắn của bạn — nó sẽ hiện lên màn radar cùng hàng nghìn tín hiệu khác.</p>
+
+  <div class="countdown" id="countdown">
+    <div class="cd-cell"><div class="cd-num" id="cdD">00</div><div class="cd-lab">Ngày</div></div>
+    <div class="cd-cell"><div class="cd-num" id="cdH">00</div><div class="cd-lab">Giờ</div></div>
+    <div class="cd-cell"><div class="cd-num" id="cdM">00</div><div class="cd-lab">Phút</div></div>
+    <div class="cd-cell"><div class="cd-num" id="cdS">00</div><div class="cd-lab">Giây</div></div>
   </div>
-</div>
+</header>
 
-<!-- Tooltip (shared, repositioned on hover) -->
-<div class="tooltip" id="tooltip">
-  <div class="tt-from">From</div>
-  <div class="tt-name" id="ttName"></div>
-  <div class="tt-msg" id="ttMsg"></div>
-  <div class="tt-date" id="ttDate"></div>
-</div>
-
-<!-- Intro overlay -->
-<div class="intro" id="intro">
-  <img class="intro-logo" src="assests/LOGO-NOTAGLINE.png" alt="BE[X]YOND Logo">
-  <p class="sub">Sky of Wishes</p>
-  <p class="desc">Mỗi lời chúc bạn gửi tới Cường sẽ trở thành một ngôi sao trên bầu trời này — và sẽ ở đó mãi, cùng với hàng nghìn lời chúc khác từ fandom.</p>
-  <div class="intro-actions">
-    <a class="btn" id="introOpenForm">Gửi lời nhắn</a>
-    <a class="btn btn-ghost" id="introViewSky">Xem bầu trời</a>
+<section class="radar-zone">
+  <div class="radar-meta">
+    <div>FREQ // <b>432.0 Hz</b> — DEDICATED</div>
+    <div>TÍN HIỆU: <b id="sigCount">0</b></div>
   </div>
-  <!-- Countdown inside intro -->
-  <div class="countdown-wrap" id="countdownWrap" aria-hidden="false">
-    <div class="countdown" id="countdown">
-      <div class="time-box">
-        <div id="days">00</div>
-        <small>DAYS</small>
-      </div>
-      <div class="divider"></div>
-      <div class="time-box">
-        <div id="hours">00</div>
-        <small>HOURS</small>
-      </div>
-      <div class="divider"></div>
-      <div class="time-box">
-        <div id="minutes">00</div>
-        <small>MINUTES</small>
-      </div>
-      <div class="divider"></div>
-      <div class="time-box">
-        <div id="seconds">00</div>
-        <small>SECONDS</small>
-      </div>
-    </div>
+  <div class="radar" id="radar">
+    <div class="rring r1"></div><div class="rring r2"></div><div class="rring r3"></div>
+    <div class="cross h"></div><div class="cross v"></div>
+    <div class="sweep"></div>
+    <div class="center-dot"></div>
+    <div class="radar-empty" id="radarEmpty">Đang quét... chưa bắt được tín hiệu nào.<br>Hãy là người đầu tiên phát tín hiệu cho Cường.</div>
   </div>
-</div>
+  <div class="send-row">
+    <button class="btn primary" id="openSend">◉ Phát tín hiệu</button>
+  </div>
+</section>
 
-<!-- Add-wish floating button on sky -->
-<div class="add-fab" id="addFab" style="display:none;">
-  <div class="hint">Rê chuột vào sao để đọc lời nhắn</div>
-  <button class="btn" id="addBtn">+ Gửi một ngôi sao</button>
-</div>
+<section class="feed">
+  <div class="feed-h">Tín hiệu gần đây</div>
+  <div class="feed-grid" id="feed"></div>
+</section>
 
-<!-- Form modal -->
-<div class="modal-overlay" id="modal">
+<footer class="foot">
+  <div class="logo">BE<span class="x">[X]</span>YOND</div>
+  <p>"Beyond seeing you, we choose to stay for the journey."</p>
+  <div class="tags">© 2026 H3T ONLY FOR CUONG BACH · #BEXYONDWITHCUONGBACH · #CUONGBACH26THBIRTHDAY</div>
+</footer>
+
+<button class="btn primary fab" id="fab">◉ Phát tín hiệu</button>
+
+<!-- SEND MODAL -->
+<div class="modal-overlay" id="sendModal">
   <div class="modal">
-    <button class="modal-close" id="modalClose" aria-label="Close">×</button>
-    <div class="modal-tag">A wish for Cường</div>
-    <h2 class="modal-title">Gửi một ngôi sao</h2>
-    <p class="modal-sub">Một lời nhắn của bạn sẽ trở thành một đốm sáng trong bầu trời chung — nơi mọi lời chúc cùng nhau toả sáng.</p>
-
+    <button class="modal-close" id="sendClose" aria-label="Đóng">×</button>
+    <div class="m-tag">Phát một tín hiệu</div>
+    <h2 class="m-title">Gửi lời nhắn</h2>
+    <p class="m-sub">Lời nhắn của bạn sẽ trở thành một tín hiệu trên màn radar — nơi mọi lời chúc cùng phát sóng.</p>
     <div class="field">
-      <label for="inpName">Tên của bạn / nickname (tuỳ chọn)</label>
+      <label for="inpName">Tên / nickname (tuỳ chọn)</label>
       <input type="text" id="inpName" placeholder="vd: Linh từ Hà Nội" maxlength="40" />
     </div>
-
     <div class="field">
       <label for="inpMsg">Lời nhắn gửi Cường</label>
       <textarea id="inpMsg" placeholder="Chúc Cường tuổi 26 tràn ngập ánh sáng và những bước đi vững vàng..." maxlength="280"></textarea>
-      <div class="char-count" id="charCount">280 ký tự còn lại</div>
+      <div class="char-count" id="charCount">280</div>
     </div>
-
-    <div class="modal-actions">
-      <button class="btn btn-ghost" id="modalCancel">Xem bầu trời</button>
-      <button class="btn" id="modalSubmit">Gửi lời nhắn</button>
-    </div>
+    <button class="btn primary" id="submitBtn">◉ Phát tín hiệu</button>
   </div>
 </div>
 
-<!-- Success toast -->
-<div class="toast" id="toast">✨ Ngôi sao của bạn đã được gửi</div>
+<!-- READ MODAL -->
+<div class="modal-overlay" id="readModal">
+  <div class="modal read">
+    <button class="modal-close" id="readClose" aria-label="Đóng">×</button>
+    <div class="r-freq" id="rFreq">SIGNAL // 432.0 Hz</div>
+    <div class="r-msg" id="rMsg"></div>
+    <div class="r-who" id="rWho"></div>
+    <div class="r-when" id="rWhen"></div>
+  </div>
+</div>
 
-<!-- Credit -->
-<div class="credit">BE[X]YOND</div>
+<div class="toast" id="toast">◉ Tín hiệu đã được phát đi. Cảm ơn bạn!</div>
+
+<audio id="bgMusic" src="assests/Ng%C3%A2n%20nga.m4a" preload="auto" autoplay loop></audio>
 
 <script>
 'use strict';
 
-// ============ Theme switcher ============
-(function initThemeSwitch() {
-  const KEY = 'bex_theme';
-  const valid = ['hologram', 'aurora', 'sunset', 'cobalt', 'light'];
-  let saved = 'hologram';
-  try { const v = localStorage.getItem(KEY); if (valid.includes(v)) saved = v; } catch (e) {}
-
-  function apply(set) {
-    if (set === 'hologram') document.body.removeAttribute('data-theme');
-    else document.body.setAttribute('data-theme', set);
-    document.querySelectorAll('.theme-switch .swatch').forEach(function (b) {
-      b.classList.toggle('active', b.dataset.set === set);
-    });
-    try { localStorage.setItem(KEY, set); } catch (e) {}
+/* ════════════ THEME ════════════ */
+(function themes(){
+  const KEY='bex_freq_theme', valid=['hologram','aurora','sunset','cobalt','light'];
+  let cur='hologram';
+  try { const v=localStorage.getItem(KEY); if(valid.includes(v)) cur=v; } catch(e){}
+  function apply(t){
+    if(t==='hologram') document.body.removeAttribute('data-theme');
+    else document.body.setAttribute('data-theme',t);
+    document.querySelectorAll('.theme-switch .sw').forEach(b=>b.classList.toggle('active', b.dataset.t===t));
+    try{ localStorage.setItem(KEY,t); }catch(e){}
   }
-
-  document.addEventListener('DOMContentLoaded', function () {
-    apply(saved);
-    document.querySelectorAll('.theme-switch .swatch').forEach(function (b) {
-      b.addEventListener('click', function () { apply(b.dataset.set); });
-    });
+  document.addEventListener('DOMContentLoaded', ()=>{
+    apply(cur);
+    document.querySelectorAll('.theme-switch .sw').forEach(b=>b.addEventListener('click', ()=>apply(b.dataset.t)));
   });
 })();
 
-// ============ Supabase config ============
+/* ════════════ COUNTDOWN ════════════ */
+(function countdown(){
+  const target = new Date(2026, 5, 23, 0, 0, 0, 0).getTime();
+  const D=()=>document.getElementById('cdD'), H=()=>document.getElementById('cdH'),
+        M=()=>document.getElementById('cdM'), S=()=>document.getElementById('cdS');
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function tick(){
+    let diff = target - Date.now();
+    if(diff<=0){
+      const c=document.getElementById('countdown');
+      if(c) c.innerHTML='<div class="cd-done">🎂 Chúc mừng sinh nhật Cường!</div>';
+      clearInterval(tick._t); return;
+    }
+    const d=Math.floor(diff/86400000); diff-=d*86400000;
+    const h=Math.floor(diff/3600000); diff-=h*3600000;
+    const m=Math.floor(diff/60000); diff-=m*60000;
+    const s=Math.floor(diff/1000);
+    if(D()) D().textContent=pad(d); if(H()) H().textContent=pad(h);
+    if(M()) M().textContent=pad(m); if(S()) S().textContent=pad(s);
+  }
+  document.addEventListener('DOMContentLoaded', ()=>{ tick(); tick._t=setInterval(tick,1000); });
+})();
+
+/* ════════════ SUPABASE ════════════ */
 const SUPABASE_URL = 'https://pigwxqjxssjpaqymvrxf.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBpZ3d4cWp4c3NqcGFxeW12cnhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NDIxMDcsImV4cCI6MjA5NDQxODEwN30.WmRSHObKgZdO0R58G7HuBkJwYvRAVMU2K9rS35xw96M';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ============ State ============
 let wishes = [];
+const seenIds = new Set();
+const $ = id => document.getElementById(id);
+const radar = () => $('radar');
 
-// ============ DOM refs ============
-const $ = (id) => document.getElementById(id);
-const sky = $('sky');
-const counterEl = $('counter');
-const emptyEl = $('empty');
-const tooltip = $('tooltip');
-const ttName = $('ttName');
-const ttMsg = $('ttMsg');
-const ttDate = $('ttDate');
-const intro = $('intro');
-const addFab = $('addFab');
-const modal = $('modal');
-const inpName = $('inpName');
-const inpMsg = $('inpMsg');
-const charCount = $('charCount');
-const toast = $('toast');
-const bgMusic = $('bgMusic');
-const musicPlayer = $('musicPlayer');
-let musicFrameLoaded = false;
-
-function loadMusicFrame() {
-  if (!musicPlayer || musicFrameLoaded) return;
-  if (bgMusic) bgMusic.pause();
-  musicFrameLoaded = true;
-  musicPlayer.srcdoc = '<!doctype html><html><body style="margin:0;overflow:hidden;background:transparent;"><audio id="music" src="assests/Ng%C3%A2n%20nga.m4a" autoplay loop playsinline></audio><script>const music=document.getElementById("music");music.volume=0.45;function play(){music.play().catch(function(){});}play();window.addEventListener("load",play);setInterval(play,1500);<\/script></body></html>';
-}
-
-function playBackgroundMusic() {
-  if (musicFrameLoaded) return;
-
-  if (!bgMusic) {
-    loadMusicFrame();
-    return;
-  }
-
-  bgMusic.volume = 0.45;
-  if (bgMusic.paused) {
-    bgMusic.play().catch(() => {
-      if (bgMusic.paused) loadMusicFrame();
-    });
-  }
-}
-
-document.addEventListener('DOMContentLoaded', playBackgroundMusic);
-window.addEventListener('load', playBackgroundMusic);
-window.addEventListener('pageshow', playBackgroundMusic);
-setTimeout(playBackgroundMusic, 300);
-
-// ============ Generate random position avoiding edges and crowded areas ============
-function starDistance(a, b) {
-  const rect = sky.getBoundingClientRect();
-  const width = rect.width || window.innerWidth || 1;
-  const height = rect.height || window.innerHeight || 1;
-  const dx = ((a.x - b.x) / 100) * width;
-  const dy = ((a.y - b.y) / 100) * height;
-  return Math.hypot(dx, dy);
-}
-
-function isPositionOpen(candidate, minDistance) {
-  return wishes.every(w => {
-    const glowSpace = ((candidate.size || 9) + (w.size || 9)) / 2;
-    return starDistance(candidate, w) >= minDistance + glowSpace;
-  });
-}
-
-const SKY_BOUNDS = {
-  minX: 6,
-  maxX: 94,
-  minY: 14,
-  maxY: 86,
-};
-
-function randomStarSize() {
-  return 4 + Math.random() * 6; // 4px - 10px
-}
-
-function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, value));
-}
-
-function getSkyGrid() {
-  return window.innerWidth < 640
-    ? { cols: 8, rows: 10 }
-    : { cols: 14, rows: 9 };
-}
-
-function getCellForPoint(point, grid) {
-  const col = clamp(
-    Math.floor(((point.x - SKY_BOUNDS.minX) / (SKY_BOUNDS.maxX - SKY_BOUNDS.minX)) * grid.cols),
-    0,
-    grid.cols - 1
-  );
-  const row = clamp(
-    Math.floor(((point.y - SKY_BOUNDS.minY) / (SKY_BOUNDS.maxY - SKY_BOUNDS.minY)) * grid.rows),
-    0,
-    grid.rows - 1
-  );
-  return { col, row, index: row * grid.cols + col };
-}
-
-function buildSkyCells(grid) {
-  const cells = Array.from({ length: grid.cols * grid.rows }, (_, index) => ({
-    index,
-    count: 0,
-    col: index % grid.cols,
-    row: Math.floor(index / grid.cols),
-  }));
-
-  wishes.forEach(w => {
-    const cell = getCellForPoint(w, grid);
-    cells[cell.index].count++;
-  });
-
-  return cells.sort((a, b) => a.count - b.count || Math.random() - 0.5);
-}
-
-function randomPointInCell(cell, grid) {
-  const cellW = (SKY_BOUNDS.maxX - SKY_BOUNDS.minX) / grid.cols;
-  const cellH = (SKY_BOUNDS.maxY - SKY_BOUNDS.minY) / grid.rows;
-  const padX = cellW * 0.12;
-  const padY = cellH * 0.12;
-
-  return {
-    x: SKY_BOUNDS.minX + cell.col * cellW + padX + Math.random() * Math.max(0.01, cellW - padX * 2),
-    y: SKY_BOUNDS.minY + cell.row * cellH + padY + Math.random() * Math.max(0.01, cellH - padY * 2),
-    size: randomStarSize(),
-  };
-}
-
-function generatePosition() {
-  // Avoid the top bar and bottom button area, then prefer the least crowded cells.
-  const grid = getSkyGrid();
-  const cells = buildSkyCells(grid);
-  const baseMinDistance = window.innerWidth < 640 ? 18 : 24;
-
-  for (let attempt = 0; attempt < 260; attempt++) {
-    const allowedCrowding = Math.floor(attempt / 70);
-    const bestCount = cells[0]?.count || 0;
-    const candidateCells = cells.filter(cell => cell.count <= bestCount + allowedCrowding);
-    const pool = candidateCells.length ? candidateCells : cells.slice(0, 12);
-    const cell = pool[Math.floor(Math.random() * pool.length)];
-    const candidate = randomPointInCell(cell, grid);
-    const relaxedDistance = baseMinDistance * Math.max(0.42, 1 - attempt / 260);
-
-    if (isPositionOpen(candidate, relaxedDistance)) return candidate;
-  }
-
-  return randomPointInCell(cells[0], grid);
-}
-
-// ============ Render the sky (full re-render is fine for this scale) ============
-function renderSky(newId = null) {
-  // Clear existing wish-stars (keep bg-stars and empty)
-  sky.querySelectorAll('.wish-star').forEach(el => el.remove());
-
-  // Sort by timestamp so newer stars are on top
-  const sorted = [...wishes].sort((a, b) => a.timestamp - b.timestamp);
-
-  sorted.forEach(w => {
-    const el = document.createElement('div');
-    el.className = 'wish-star' + (w.id === newId ? ' new' : '');
-    el.style.left = w.x + '%';
-    el.style.top = w.y + '%';
-    el.style.setProperty('--size', clamp(Number(w.size) || 6, 4, 10) + 'px');
-    el.dataset.id = w.id;
-
-    const core = document.createElement('div');
-    core.className = 'core';
-    core.style.animationDelay = (Math.random() * 3) + 's';
-    el.appendChild(core);
-
-    // Hover events
-    el.addEventListener('mouseenter', (e) => showTooltip(w, el));
-    el.addEventListener('mouseleave', hideTooltip);
-    // Touch: tap to toggle
-    el.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (tooltip.dataset.activeId === w.id) {
-        hideTooltip();
-      } else {
-        showTooltip(w, el);
-      }
-    });
-
-    sky.appendChild(el);
-  });
-
-  counterEl.textContent = wishes.length;
-  if (wishes.length === 0) {
-    emptyEl.classList.remove('hidden');
-  } else {
-    emptyEl.classList.add('hidden');
-  }
-}
-
-// ============ Tooltip ============
-function showTooltip(wish, el) {
-  ttName.textContent = wish.name || 'Anonymous';
-  ttMsg.textContent = '"' + wish.message + '"';
-  ttDate.textContent = formatDate(wish.timestamp);
-  tooltip.dataset.activeId = wish.id;
-
-  // Position above the star
-  const rect = el.getBoundingClientRect();
-  const ttWidth = 320;
-  let left = rect.left + rect.width / 2;
-  // Keep within viewport
-  left = Math.max(ttWidth / 2 + 16, Math.min(window.innerWidth - ttWidth / 2 - 16, left));
-  tooltip.style.left = left + 'px';
-  tooltip.style.top = rect.top + 'px';
-
-  // If too close to top, flip to below
-  const ttHeight = tooltip.offsetHeight || 180;
-  if (rect.top < ttHeight + 40) {
-    tooltip.style.top = (rect.bottom + 24) + 'px';
-    tooltip.style.transform = 'translate(-50%, 0)';
-    tooltip.classList.add('flipped');
-  } else {
-    tooltip.style.transform = 'translate(-50%, calc(-100% - 24px))';
-    tooltip.classList.remove('flipped');
-  }
-
-  tooltip.classList.add('show');
-}
-
-function hideTooltip() {
-  tooltip.classList.remove('show');
-  delete tooltip.dataset.activeId;
-}
-
-// Hide tooltip on body click
-sky.addEventListener('click', (e) => {
-  if (!e.target.closest('.wish-star')) hideTooltip();
-});
-
-function formatDate(ts) {
-  const d = new Date(ts);
-  return d.getDate().toString().padStart(2,'0') + '.'
-       + (d.getMonth()+1).toString().padStart(2,'0') + '.'
-       + d.getFullYear();
-}
-
-// ============ Modal ============
-function openModal() {
-  modal.classList.add('show');
-  setTimeout(() => inpMsg.focus(), 300);
-}
-function closeModal() {
-  modal.classList.remove('show');
-}
-
-inpMsg.addEventListener('input', () => {
-  const left = 280 - inpMsg.value.length;
-  charCount.textContent = left + ' ký tự còn lại';
-  charCount.classList.toggle('warn', left < 30);
-});
-
-// ============ Submit ============
-async function handleSubmit() {
-  const msg = inpMsg.value.trim();
-  if (!msg) {
-    inpMsg.focus();
-    inpMsg.style.borderColor = 'var(--rose)';
-    setTimeout(() => inpMsg.style.borderColor = '', 1500);
-    return;
-  }
-  const submitBtn = $('modalSubmit');
-  submitBtn.textContent = '...';
-  submitBtn.disabled = true;
-
-  const pos = generatePosition();
-  const { data, error } = await sb.from('wishes').insert({
-    name: inpName.value.trim().slice(0, 40) || null,
-    message: msg.slice(0, 280),
-    x: pos.x,
-    y: pos.y,
-    size: pos.size,
-  }).select().single();
-
-  submitBtn.textContent = 'Gửi lời nhắn';
-  submitBtn.disabled = false;
-
-  if (error) { console.error(error); alert('Lỗi khi gửi. Thử lại nhé!'); return; }
-
-  // Render ngay cho người vừa nhập (realtime cũng sẽ fire nhưng seenIds sẽ chặn duplicate)
-  addWish(normalize(data), true);
-
-  closeModal();
-  intro.classList.add('hidden');
-  addFab.style.display = 'flex';
-  showToast();
-  inpMsg.value = '';
-  inpName.value = '';
-  charCount.textContent = '280 ký tự còn lại';
-  charCount.classList.remove('warn');
-}
-
-function showToast() {
-  toast.classList.add('show');
-  clearTimeout(showToast._t);
-  showToast._t = setTimeout(() => toast.classList.remove('show'), 3000);
-}
-
-function showHome() {
-  closeModal();
-  hideTooltip();
-  intro.classList.remove('hidden');
-  addFab.style.display = 'none';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// ============ Event wiring ============
-$('homeLogo').addEventListener('click', showHome);
-$('introOpenForm').addEventListener('click', () => {
-  playBackgroundMusic();
-  intro.classList.add('hidden');
-  addFab.style.display = 'flex';
-  openModal();
-});
-$('introViewSky').addEventListener('click', () => {
-  playBackgroundMusic();
-  intro.classList.add('hidden');
-  addFab.style.display = 'flex';
-});
-$('addBtn').addEventListener('click', openModal);
-$('modalClose').addEventListener('click', closeModal);
-$('modalCancel').addEventListener('click', closeModal);
-$('modalSubmit').addEventListener('click', handleSubmit);
-modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') { closeModal(); hideTooltip(); }
-  if ((e.key === 'Enter') && (e.ctrlKey || e.metaKey) && modal.classList.contains('show')) {
-    handleSubmit();
-  }
-});
-
-// ============ Normalize DB row ============
-function normalize(row) {
+function normalize(row){
   return {
     id: row.id,
-    name: row.name || 'Anonymous',
+    name: row.name || 'Tín hiệu ẩn danh',
     message: row.message,
-    x: row.x,
-    y: row.y,
-    size: row.size,
+    x: row.x, y: row.y, size: row.size,
     timestamp: new Date(row.created_at).getTime(),
   };
 }
-
-// Track IDs already rendered to avoid duplicates between insert response & realtime event
-const seenIds = new Set();
-
-function addWish(w, isNew = false) {
-  if (seenIds.has(w.id)) return;
-  seenIds.add(w.id);
-  wishes.push(w);
-  renderSky(isNew ? w.id : null);
+function fmtDate(ts){
+  const d=new Date(ts);
+  return d.getDate().toString().padStart(2,'0')+'.'+(d.getMonth()+1).toString().padStart(2,'0')+'.'+d.getFullYear()
+    +' · '+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+}
+function freqStamp(id){
+  // derive a pseudo frequency label from id for flavor
+  let h=0; const str=String(id);
+  for(let i=0;i<str.length;i++){ h=(h*31+str.charCodeAt(i))>>>0; }
+  return (400 + (h % 600) / 10).toFixed(1) + ' Hz';
 }
 
-// ============ Boot: load from Supabase + subscribe realtime ============
-(async function boot() {
-  emptyEl.querySelector('p').textContent = 'Đang tải bầu trời...';
-  emptyEl.classList.remove('hidden');
+/* place a blip inside radar circle (polar, avoid dead-center) */
+function blipPos(seed){
+  let h=0; const str=String(seed);
+  for(let i=0;i<str.length;i++){ h=(h*131+str.charCodeAt(i))>>>0; }
+  const ang = (h % 360) * Math.PI/180;
+  const rad = 0.18 + ((h>>9) % 1000)/1000 * 0.62; // 18%..80% of radius
+  const cx = 50 + Math.cos(ang) * rad * 50;
+  const cy = 50 + Math.sin(ang) * rad * 50;
+  return { left: cx, top: cy };
+}
 
-  const { data, error } = await sb
-    .from('wishes')
-    .select('*')
-    .order('created_at', { ascending: true });
+function renderBlip(w, fresh){
+  const p = blipPos(w.id);
+  const el = document.createElement('div');
+  el.className = 'blip' + (fresh ? ' fresh' : '');
+  el.style.left = p.left + '%';
+  el.style.top = p.top + '%';
+  el.style.animationDelay = (Math.random()*2.5) + 's';
+  el.title = w.name;
+  el.addEventListener('click', ()=> openRead(w));
+  radar().appendChild(el);
+}
 
-  if (error) {
-    console.error('Supabase load error:', error);
-    emptyEl.querySelector('p').textContent = 'Không thể kết nối. Vui lòng thử lại.';
-    return;
-  }
+function emitPulse(){
+  const e = document.createElement('div');
+  e.className = 'emit';
+  radar().appendChild(e);
+  setTimeout(()=> e.remove(), 1500);
+}
 
-  wishes = data.map(normalize);
-  wishes.forEach(w => seenIds.add(w.id));
-  renderSky();
+function renderFeed(){
+  const feed = $('feed');
+  const recent = [...wishes].sort((a,b)=>b.timestamp-a.timestamp).slice(0, 12);
+  feed.innerHTML = recent.map(w=>`
+    <div class="sig-card">
+      <div class="freq">◉ ${freqStamp(w.id)}</div>
+      <div class="msg">${escapeHtml(w.message)}</div>
+      <div class="who">— ${escapeHtml(w.name)}</div>
+      <div class="when">${fmtDate(w.timestamp)}</div>
+    </div>`).join('');
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 
-  if (wishes.length === 0) {
-    emptyEl.querySelector('p').innerHTML = 'Chưa có ngôi sao nào trên bầu trời.<br>Hãy là người đầu tiên gửi lời nhắn cho Cường.';
-  }
+function updateCount(){
+  $('sigCount').textContent = wishes.length;
+  $('radarEmpty').style.display = wishes.length ? 'none' : 'block';
+}
 
-  // Realtime: nhận wish mới từ tất cả mọi người (kể cả chính mình nếu chưa seen)
+function addWish(w, fresh){
+  if(seenIds.has(w.id)) return;
+  seenIds.add(w.id);
+  wishes.push(w);
+  renderBlip(w, fresh);
+  renderFeed();
+  updateCount();
+}
+
+/* ════════════ READ MODAL ════════════ */
+function openRead(w){
+  $('rFreq').textContent = 'SIGNAL // ' + freqStamp(w.id);
+  $('rMsg').textContent = '"' + w.message + '"';
+  $('rWho').textContent = '— ' + w.name;
+  $('rWhen').textContent = fmtDate(w.timestamp);
+  $('readModal').classList.add('show');
+}
+$('readClose').addEventListener('click', ()=> $('readModal').classList.remove('show'));
+$('readModal').addEventListener('click', e=>{ if(e.target===$('readModal')) $('readModal').classList.remove('show'); });
+
+/* ════════════ SEND MODAL ════════════ */
+function openSend(){ $('sendModal').classList.add('show'); setTimeout(()=>$('inpMsg').focus(),250); }
+function closeSend(){ $('sendModal').classList.remove('show'); }
+$('openSend').addEventListener('click', openSend);
+$('fab').addEventListener('click', openSend);
+$('sendClose').addEventListener('click', closeSend);
+$('sendModal').addEventListener('click', e=>{ if(e.target===$('sendModal')) closeSend(); });
+
+$('inpMsg').addEventListener('input', ()=>{
+  const left = 280 - $('inpMsg').value.length;
+  const c = $('charCount'); c.textContent = left;
+  c.classList.toggle('warn', left < 30);
+});
+
+$('submitBtn').addEventListener('click', async ()=>{
+  const msg = $('inpMsg').value.trim();
+  if(!msg){ $('inpMsg').focus(); $('inpMsg').style.borderColor='var(--accent)'; setTimeout(()=>$('inpMsg').style.borderColor='',1200); return; }
+  const btn = $('submitBtn'); btn.disabled=true; btn.textContent='Đang phát...';
+
+  // keep schema-compatible x/y/size values
+  const seed = Date.now() + '' + Math.random();
+  const px = Math.random()*100, py = Math.random()*100, ps = 8 + Math.random()*6;
+
+  const { data, error } = await sb.from('wishes').insert({
+    name: $('inpName').value.trim().slice(0,40) || null,
+    message: msg.slice(0,280),
+    x: px, y: py, size: ps,
+  }).select().single();
+
+  btn.disabled=false; btn.textContent='◉ Phát tín hiệu';
+  if(error){ console.error(error); alert('Lỗi khi gửi. Thử lại nhé!'); return; }
+
+  emitPulse();
+  addWish(normalize(data), true);
+  closeSend();
+  showToast();
+  $('inpMsg').value=''; $('inpName').value=''; $('charCount').textContent='280'; $('charCount').classList.remove('warn');
+  $('fab').style.display='inline-flex';
+});
+
+/* ════════════ TOAST ════════════ */
+let toastT;
+function showToast(){
+  const t=$('toast'); t.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'), 3200);
+}
+
+/* ════════════ LOAD + REALTIME ════════════ */
+async function load(){
+  const { data, error } = await sb.from('wishes').select('*').order('created_at',{ascending:true});
+  if(error){ console.error(error); return; }
+  data.forEach(row=> addWish(normalize(row), false));
+  updateCount();
+
   sb.channel('wishes-realtime')
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'wishes' }, payload => {
+    .on('postgres_changes', { event:'INSERT', schema:'public', table:'wishes' }, payload=>{
       addWish(normalize(payload.new), true);
     })
     .subscribe();
+}
+document.addEventListener('DOMContentLoaded', load);
+
+/* ════════════ MUSIC (best-effort autoplay) ════════════ */
+(function music(){
+  const a=$('bgMusic'); if(!a) return;
+  a.volume=0.45;
+  function play(){ a.play().catch(()=>{}); }
+  ['DOMContentLoaded','load','pageshow','click','touchstart'].forEach(ev=>window.addEventListener(ev, play, {once:false}));
+  setTimeout(play, 400);
 })();
 
-window.addEventListener('resize', () => hideTooltip());
-
-// ===== Countdown to 2026-06-23 00:00 (local time) =====
-(function initCountdown(){
-  const elDays = document.getElementById('days');
-  const elHours = document.getElementById('hours');
-  const elMinutes = document.getElementById('minutes');
-  const elSeconds = document.getElementById('seconds');
-
-  // Target: 23 June 2026 00:00 local
-  const target = new Date(2026, 5, 23, 0, 0, 0, 0).getTime();
-
-  function update() {
-    const now = Date.now();
-    let diff = Math.max(0, target - now);
-
-    const days = Math.floor(diff / 86400000);
-    diff -= days * 86400000;
-    const hours = Math.floor(diff / 3600000);
-    diff -= hours * 3600000;
-    const minutes = Math.floor(diff / 60000);
-    diff -= minutes * 60000;
-    const seconds = Math.floor(diff / 1000);
-
-    elDays.textContent = String(days).padStart(2, '0');
-    elHours.textContent = String(hours).padStart(2, '0');
-    elMinutes.textContent = String(minutes).padStart(2, '0');
-    elSeconds.textContent = String(seconds).padStart(2, '0');
-
-    if (target - now <= 0) {
-      // Optionally show expired state
-      clearInterval(update._t);
-    }
-  }
-
-  update();
-  update._t = setInterval(update, 1000);
-})();
+/* show FAB after scrolling past radar */
+window.addEventListener('scroll', ()=>{
+  $('fab').style.display = window.scrollY > 600 ? 'inline-flex' : 'none';
+});
 </script>
-
 </body>
 </html>
