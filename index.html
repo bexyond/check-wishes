@@ -11,28 +11,37 @@
 <style>
 /* ════════════ THEME TOKENS ════════════ */
 :root {
-  /* Hologram (default) */
-  --bg0: #0c0a1c;
-  --bg1: #15102e;
-  --grid: rgba(185,138,255,0.10);
-  --text: #f3f0ff;
-  --dim: rgba(243,240,255,0.7);
-  --faint: rgba(243,240,255,0.42);
-  --accent: #b98aff;
-  --accent2: #6fb3ff;
-  --accent-deep: #8a5cf0;
-  --ring: rgba(185,138,255,0.35);
-  --blip: #d9c6ff;
-  --glow: rgba(185,138,255,0.6);
+  /* Cobalt (default, xanh dương) */
+  --bg0: #061227;
+  --bg1: #0a2350;
+  --grid: rgba(135,175,255,0.10);
+  --text: #f5f8ff;
+  --dim: rgba(245,248,255,0.7);
+  --faint: rgba(245,248,255,0.42);
+  --accent: #6f9fff;
+  --accent2: #8ad0ff;
+  --accent-deep: #2c66e4;
+  --ring: rgba(135,175,255,0.34);
+  --blip: #c6d8ff;
+  --glow: rgba(135,175,255,0.55);
   --surface: rgba(255,255,255,0.05);
   --surface-line: rgba(255,255,255,0.12);
-  --panel: rgba(18,14,38,0.94);
+  --panel: rgba(8,24,56,0.94);
   --shadow: rgba(0,0,0,0.6);
   --mono: 'JetBrains Mono', monospace;
   --head: 'Oswald', sans-serif;
   --anton: 'Anton', sans-serif;
   --body: 'Be Vietnam Pro', sans-serif;
   --serif: 'Cormorant Garamond', serif;
+}
+/* Champagne (vàng ấm, thay Hologram) */
+body[data-theme="champagne"] {
+  --bg0: #16120a; --bg1: #2a2110; --grid: rgba(240,200,120,0.10);
+  --text: #fff7e8; --dim: rgba(255,247,232,0.74); --faint: rgba(255,247,232,0.44);
+  --accent: #f0c674; --accent2: #ffd98a; --accent-deep: #d4a23c;
+  --ring: rgba(240,200,120,0.34); --blip: #ffeccb; --glow: rgba(240,200,120,0.55);
+  --surface: rgba(255,255,255,0.05); --surface-line: rgba(255,255,255,0.12);
+  --panel: rgba(34,27,14,0.94); --shadow: rgba(0,0,0,0.6);
 }
 body[data-theme="aurora"] {
   --bg0: #06121a; --bg1: #0d2630; --grid: rgba(94,240,192,0.10);
@@ -50,21 +59,14 @@ body[data-theme="sunset"] {
   --surface: rgba(255,255,255,0.05); --surface-line: rgba(255,255,255,0.12);
   --panel: rgba(40,16,26,0.94); --shadow: rgba(0,0,0,0.6);
 }
-body[data-theme="cobalt"] {
-  --bg0: #061227; --bg1: #0a2350; --grid: rgba(135,175,255,0.10);
-  --text: #f5f8ff; --dim: rgba(245,248,255,0.7); --faint: rgba(245,248,255,0.42);
-  --accent: #6f9fff; --accent2: #8ad0ff; --accent-deep: #2c66e4;
-  --ring: rgba(135,175,255,0.34); --blip: #c6d8ff; --glow: rgba(135,175,255,0.55);
-  --surface: rgba(255,255,255,0.05); --surface-line: rgba(255,255,255,0.12);
-  --panel: rgba(8,24,56,0.94); --shadow: rgba(0,0,0,0.6);
-}
 body[data-theme="light"] {
-  --bg0: #eef0fa; --bg1: #dde2f3; --grid: rgba(90,80,160,0.08);
-  --text: #1a1730; --dim: rgba(26,23,48,0.72); --faint: rgba(26,23,48,0.45);
-  --accent: #7a5cf0; --accent2: #4a8cf0; --accent-deep: #5a3cd0;
-  --ring: rgba(122,92,240,0.30); --blip: #7a5cf0; --glow: rgba(122,92,240,0.4);
-  --surface: rgba(26,23,48,0.05); --surface-line: rgba(26,23,48,0.14);
-  --panel: rgba(255,255,255,0.97); --shadow: rgba(60,50,120,0.25);
+  /* bản Light của xanh dương (Cobalt) */
+  --bg0: #eef2fc; --bg1: #e1e8f7; --grid: rgba(44,102,228,0.08);
+  --text: #0f1f3d; --dim: rgba(15,31,61,0.74); --faint: rgba(15,31,61,0.46);
+  --accent: #2c66e4; --accent2: #1f7ad0; --accent-deep: #1a4dbf;
+  --ring: rgba(44,102,228,0.30); --blip: #2c66e4; --glow: rgba(44,102,228,0.4);
+  --surface: rgba(15,31,61,0.05); --surface-line: rgba(15,31,61,0.14);
+  --panel: rgba(255,255,255,0.97); --shadow: rgba(30,60,120,0.25);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -112,11 +114,11 @@ body {
 }
 .theme-switch .sw:hover { transform: scale(1.2); }
 .theme-switch .sw.active { border-color: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,0.25), 0 0 10px currentColor; }
-.sw[data-t="hologram"]{ background: linear-gradient(135deg,#b98aff,#6fb3ff); color:#b98aff; }
+.sw[data-t="champagne"]{ background: linear-gradient(135deg,#f0c674,#d4a23c); color:#f0c674; }
 .sw[data-t="aurora"]{ background: linear-gradient(135deg,#5ef0c0,#8a8cff); color:#5ef0c0; }
 .sw[data-t="sunset"]{ background: linear-gradient(135deg,#ff8a6a,#ffc678); color:#ff8a6a; }
 .sw[data-t="cobalt"]{ background: linear-gradient(135deg,#6f9fff,#2c66e4); color:#6f9fff; }
-.sw[data-t="light"]{ background: linear-gradient(135deg,#fff,#d9d2f5); color:#c6baff; }
+.sw[data-t="light"]{ background: linear-gradient(135deg,#fff,#cfe0ff); color:#9dbdff; }
 body[data-theme="light"] .theme-switch .sw { border-color: rgba(26,23,48,0.3); }
 
 /* ════════════ HEADER ════════════ */
@@ -346,10 +348,10 @@ body[data-theme="light"] .btn.primary { color: #fff; }
   <div class="mid">26TH BIRTHDAY BROADCAST</div>
   <div style="display:flex; align-items:center; gap:18px;">
     <div class="theme-switch" id="themeSwitch">
-      <button class="sw" data-t="hologram" title="Hologram"></button>
+      <button class="sw" data-t="cobalt" title="Cobalt"></button>
+      <button class="sw" data-t="champagne" title="Champagne"></button>
       <button class="sw" data-t="aurora" title="Aurora"></button>
       <button class="sw" data-t="sunset" title="Sunset"></button>
-      <button class="sw" data-t="cobalt" title="Cobalt"></button>
       <button class="sw" data-t="light" title="Light"></button>
     </div>
     <div class="live"><span class="dot"></span>LIVE</div>
@@ -440,11 +442,11 @@ body[data-theme="light"] .btn.primary { color: #fff; }
 
 /* ════════════ THEME ════════════ */
 (function themes(){
-  const KEY='bex_freq_theme', valid=['hologram','aurora','sunset','cobalt','light'];
-  let cur='hologram';
+  const KEY='bex_freq_theme_v2', valid=['cobalt','champagne','aurora','sunset','light'];
+  let cur='cobalt';
   try { const v=localStorage.getItem(KEY); if(valid.includes(v)) cur=v; } catch(e){}
   function apply(t){
-    if(t==='hologram') document.body.removeAttribute('data-theme');
+    if(t==='cobalt') document.body.removeAttribute('data-theme');
     else document.body.setAttribute('data-theme',t);
     document.querySelectorAll('.theme-switch .sw').forEach(b=>b.classList.toggle('active', b.dataset.t===t));
     try{ localStorage.setItem(KEY,t); }catch(e){}
