@@ -29,6 +29,17 @@
   --star-core: #ffffff;
   --star-mid: #d9c6ff;
   --star-edge: #b98aff;
+  /* surface tokens (dark default; light theme overrides) */
+  --overlay: rgba(0,0,0,0.5);
+  --overlay-strong: rgba(0,0,0,0.72);
+  --topbar-grad: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 58%, transparent 100%);
+  --surface: rgba(255,255,255,0.06);
+  --surface-hover: rgba(255,255,255,0.14);
+  --panel: rgba(10,8,22,0.92);
+  --panel-grad: linear-gradient(180deg, rgba(20,14,38,0.95) 0%, rgba(10,8,22,0.98) 100%);
+  --input-bg: rgba(255,255,255,0.04);
+  --btn-text-hover: #ffffff;
+  --shadow: rgba(0,0,0,0.7);
   --display: 'Cinzel', serif;
   --serif: 'Cormorant Garamond', serif;
   --sans: 'Inter', sans-serif;
@@ -100,6 +111,38 @@ body[data-theme="cobalt"] {
   --star-edge: #6f9fff;
 }
 
+/* ===== THEME: Light (nền sáng) ===== */
+body[data-theme="light"] {
+  --bg: #eef1fb;
+  --bg-grad-0: #f7f8fe;
+  --bg-grad-1: #e9ecfa;
+  --bg-grad-2: #dde2f5;
+  --grid-line: rgba(90,80,160,0.07);
+  --text: #1a1730;
+  --text-dim: rgba(26,23,48,0.78);
+  --text-faint: rgba(26,23,48,0.5);
+  --rose: #7a5cf0;
+  --rose-deep: #5a3cd0;
+  --rose-soft: #6a52c8;
+  --silver: #4a4570;
+  --line: rgba(122,92,240,0.18);
+  --glow: rgba(122,92,240,0.35);
+  --glow-soft: rgba(150,180,255,0.3);
+  --star-core: #7a5cf0;
+  --star-mid: #9d8aff;
+  --star-edge: #c6baff;
+  --overlay: rgba(255,255,255,0.45);
+  --overlay-strong: rgba(255,255,255,0.7);
+  --topbar-grad: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.55) 58%, transparent 100%);
+  --surface: rgba(26,23,48,0.05);
+  --surface-hover: rgba(122,92,240,0.14);
+  --panel: rgba(255,255,255,0.96);
+  --panel-grad: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(244,245,253,0.99) 100%);
+  --input-bg: rgba(26,23,48,0.04);
+  --btn-text-hover: #ffffff;
+  --shadow: rgba(60,50,120,0.22);
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { min-height: 100%; }
 body {
@@ -126,6 +169,7 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   mix-blend-mode: overlay;
 }
+body[data-theme="light"]::before { opacity: 0.025; mix-blend-mode: multiply; }
 
 /* ===== Background ===== */
 .music-frame {
@@ -173,6 +217,7 @@ body::before {
 .theme-switch .swatch[data-set="aurora"]   { background: linear-gradient(135deg, #5ef0c0, #8a5cf0); color: #5ef0c0; }
 .theme-switch .swatch[data-set="sunset"]   { background: linear-gradient(135deg, #ff8a6a, #ffc678); color: #ff8a6a; }
 .theme-switch .swatch[data-set="cobalt"]   { background: linear-gradient(135deg, #6f9fff, #2c66e4); color: #6f9fff; }
+.theme-switch .swatch[data-set="light"]    { background: linear-gradient(135deg, #ffffff, #d9d2f5); color: #c6baff; }
 @media (max-width: 640px) {
   .theme-switch { gap: 7px; padding: 6px 9px; }
   .theme-switch .swatch { width: 15px; height: 15px; }
@@ -189,7 +234,7 @@ body::before {
   justify-content: space-between;
   align-items: center;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 58%, transparent 100%);
+  background: var(--topbar-grad);
   backdrop-filter: blur(16px);
 }
 .topbar > * { pointer-events: auto; }
@@ -210,6 +255,10 @@ body::before {
   object-fit: contain;
 }
 .logo:hover { opacity: 0.82; }
+body[data-theme="light"] .logo img,
+body[data-theme="light"] .intro-logo {
+  filter: invert(1) hue-rotate(180deg) brightness(0.85);
+}
 .counter {
   font-family: var(--sans);
   font-size: 11px;
@@ -242,7 +291,7 @@ body::before {
   justify-content: center;
   padding: 72px 24px 80px;
   text-align: center;
-  background: radial-gradient(ellipse at center, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.72) 70%);
+  background: radial-gradient(ellipse at center, var(--overlay) 0%, var(--overlay-strong) 70%);
   backdrop-filter: blur(6px);
   transition: opacity .8s ease, visibility .8s ease;
 }
@@ -314,7 +363,7 @@ body::before {
   display: inline-block;
   padding: 16px 42px;
   border: 1px solid var(--rose);
-  background: rgba(255,255,255,0.06);
+  background: var(--surface);
   color: var(--rose-soft);
   font-family: var(--sans);
   font-size: 11px;
@@ -335,7 +384,7 @@ body::before {
   transform: translateX(-100%);
   transition: transform .6s ease;
 }
-.btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
+.btn:hover { background: var(--surface-hover); color: var(--btn-text-hover); }
 .btn:hover::before { transform: translateX(100%); }
 .btn-ghost {
   border-color: var(--line);
@@ -437,7 +486,7 @@ body::before {
   position: fixed;
   z-index: 70;
   pointer-events: none;
-  background: rgba(10,8,22,0.92);
+  background: var(--panel);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(111,159,255,0.3);
   padding: 18px 22px;
@@ -446,7 +495,7 @@ body::before {
   transform: translate(-50%, calc(-100% - 24px));
   opacity: 0;
   transition: opacity .25s ease;
-  box-shadow: 0 12px 60px rgba(0,0,0,0.7), 0 0 30px var(--glow-soft);
+  box-shadow: 0 12px 60px var(--shadow), 0 0 30px var(--glow-soft);
 }
 .tooltip.show { opacity: 1; }
 .tooltip::after {
@@ -521,7 +570,7 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: 80;
-  background: rgba(255,255,255,0.06);
+  background: var(--overlay);
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
@@ -535,13 +584,13 @@ body::before {
 .modal {
   width: 100%;
   max-width: 540px;
-  background: linear-gradient(180deg, rgba(20,14,38,0.95) 0%, rgba(10,8,22,0.98) 100%);
+  background: var(--panel-grad);
   border: 1px solid rgba(111,159,255,0.25);
   padding: 48px 44px 40px;
   position: relative;
   transform: translateY(20px);
   transition: transform .4s ease;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 60px var(--glow-soft);
+  box-shadow: 0 30px 80px var(--shadow), 0 0 60px var(--glow-soft);
 }
 .modal-overlay.show .modal { transform: translateY(0); }
 .modal-close {
@@ -611,7 +660,7 @@ body::before {
 .field input,
 .field textarea {
   width: 100%;
-  background: rgba(255,255,255,0.02);
+  background: var(--input-bg);
   border: 1px solid var(--line);
   color: var(--text);
   font-family: var(--serif);
@@ -629,7 +678,7 @@ body::before {
 .field input:focus,
 .field textarea:focus {
   border-color: var(--rose);
-  background: rgba(255,255,255,0.03);
+  background: var(--input-bg);
 }
 .field input::placeholder,
 .field textarea::placeholder {
@@ -691,7 +740,7 @@ body::before {
   left: 50%;
   transform: translate(-50%, -20px);
   z-index: 90;
-  background: rgba(10,8,22,0.95);
+  background: var(--panel);
   border: 1px solid var(--rose);
   padding: 14px 28px;
   font-family: var(--sans);
@@ -887,6 +936,7 @@ body::before {
       <button type="button" class="swatch" data-set="aurora" title="Aurora" aria-label="Aurora"></button>
       <button type="button" class="swatch" data-set="sunset" title="Sunset" aria-label="Sunset"></button>
       <button type="button" class="swatch" data-set="cobalt" title="Cobalt" aria-label="Cobalt"></button>
+      <button type="button" class="swatch" data-set="light" title="Light" aria-label="Light"></button>
     </div>
     <div class="counter"><strong id="counter">0</strong>LỜI NHẮN</div>
   </div>
@@ -986,7 +1036,7 @@ body::before {
 // ============ Theme switcher ============
 (function initThemeSwitch() {
   const KEY = 'bex_theme';
-  const valid = ['hologram', 'aurora', 'sunset', 'cobalt'];
+  const valid = ['hologram', 'aurora', 'sunset', 'cobalt', 'light'];
   let saved = 'hologram';
   try { const v = localStorage.getItem(KEY); if (valid.includes(v)) saved = v; } catch (e) {}
 
