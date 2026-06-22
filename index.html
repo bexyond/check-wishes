@@ -605,35 +605,57 @@ function freqStamp(id){
   return (200 + (h % 600) / 10).toFixed(1) + ' Hz';
 }
 
-/* Even distribution across the radar using a golden-angle (sunflower) layout.
-   Cách này đảm bảo các blip cách đều nhau, không bị dồn cụm hay đè lên nhau. */
-const GOLDEN = Math.PI * (3 - Math.sqrt(5)); // ~2.39996 rad
-function blipPosByIndex(index, total){
-  // jitter nhỏ, ổn định theo index để không quá "máy móc"
-  const jitterA = ((Math.sin(index * 12.9898) * 43758.5453) % 1) * 0.06;
-  const jitterR = ((Math.sin(index * 78.233) * 12543.123) % 1) * 0.04;
-  const ang = index * GOLDEN + jitterA;
-  // bán kính theo sqrt để mật độ đều trên diện tích; giới hạn 14%..86%
-  const frac = total > 1 ? index / (total - 1) : 0;
-  const rad = 0.14 + Math.sqrt(frac) * 0.72 + jitterR;
-  const cx = 50 + Math.cos(ang) * Math.min(rad, 0.9) * 50;
-  const cy = 50 + Math.sin(ang) * Math.min(rad, 0.9) * 50;
-  return { left: cx, top: cy };
+/* Rải ngẫu nhiên (trông tự nhiên như radar thật) nhưng tránh các blip
+   quá gần nhau để không bị đè. Vị trí cố định theo id (seed) nên không nhảy. */
+function seededRand(seed, salt){
+  let h = 2166136261 >>> 0;
+  const str = String(seed) + '|' + salt;
+  for(let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+  return (h >>> 0) / 4294967295;
+}
+function candidatePos(seed, attempt){
+  const ang = seededRand(seed, 'a'+attempt) * Math.PI * 2;
+  // sqrt để không dồn về tâm; phạm vi 12%..88% bán kính
+  const rad = 0.12 + Math.sqrt(seededRand(seed, 'r'+attempt)) * 0.76;
+  return {
+    left: 50 + Math.cos(ang) * rad * 50,
+    top:  50 + Math.sin(ang) * rad * 50,
+  };
 }
 
 function renderAllBlips(freshId){
   const host = radar();
   if(!host) return;
-  // xoá blip cũ (giữ lại các lớp nền: rings, sweep, center-dot, empty)
   host.querySelectorAll('.blip').forEach(b=> b.remove());
+
+  const placed = [];
+  // khoảng cách tối thiểu giữa 2 blip (theo đơn vị %); co lại khi quá đông để vẫn xếp được
   const total = wishes.length;
-  wishes.forEach((w, i) => {
-    const p = blipPosByIndex(i, total);
+  let minDist = total > 60 ? 5.5 : total > 35 ? 7 : 9;
+
+  wishes.forEach((w) => {
+    let pos = null;
+    // thử nhiều vị trí (đổi seed), chọn vị trí đầu tiên đủ xa; nếu không có thì lấy cái xa nhất
+    let best = null, bestMin = -1;
+    for(let attempt=0; attempt<24; attempt++){
+      const c = candidatePos(w.id, attempt);
+      let nearest = Infinity;
+      for(const p of placed){
+        const dx = c.left - p.left, dy = c.top - p.top;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if(d < nearest) nearest = d;
+      }
+      if(nearest >= minDist){ pos = c; break; }
+      if(nearest > bestMin){ bestMin = nearest; best = c; }
+    }
+    if(!pos) pos = best;
+    placed.push(pos);
+
     const el = document.createElement('div');
     el.className = 'blip' + (w.id === freshId ? ' fresh' : '');
-    el.style.left = p.left + '%';
-    el.style.top = p.top + '%';
-    el.style.animationDelay = ((i % 12) * 0.22) + 's';
+    el.style.left = pos.left + '%';
+    el.style.top = pos.top + '%';
+    el.style.animationDelay = (seededRand(w.id,'d') * 2.6) + 's';
     el.title = w.name;
     el.addEventListener('click', ()=> openRead(w));
     host.appendChild(el);
